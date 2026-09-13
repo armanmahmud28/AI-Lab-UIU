@@ -1,0 +1,1452 @@
+CONSTRAINT SATISFACTION PROBLEM (CSP) ::
+
+COMPLETE ALL-IN-ONE AI MIDTERM NOTES
+
+
+============================================================
+1. WHAT IS A CONSTRAINT SATISFACTION PROBLEM (CSP)?
+============================================================
+
+A Constraint Satisfaction Problem (CSP) is a problem where values need to be assigned to a set of variables while satisfying a set of given constraints.
+
+A CSP is generally represented as:
+
+CSP = (X, D, C)
+
+Where:
+
+X = Set of Variables
+D = Set of Domains
+C = Set of Constraints
+
+The objective of a CSP is to find an assignment of values to all variables such that all constraints are satisfied.
+
+
+============================================================
+2. MAIN COMPONENTS OF CSP
+============================================================
+
+1. VARIABLES
+
+Variables are the entities or unknowns whose values need to be assigned.
+
+Example:
+
+X = {A, B, C}
+
+In a map coloring problem:
+
+Variables = {WA, NT, SA, Q, NSW, V, T}
+
+
+2. DOMAIN
+
+A domain is the set of possible values that can be assigned to a variable.
+
+Example:
+
+D(A) = {Red, Green, Blue}
+
+D(X) = {1, 2, 3}
+
+
+3. CONSTRAINTS
+
+Constraints are rules or restrictions that specify which values can or cannot be assigned to variables.
+
+Example:
+
+A != B
+
+This means A and B cannot have the same value.
+
+
+============================================================
+3. CSP SOLUTION
+============================================================
+
+A solution to a CSP must be:
+
+1. Complete
+2. Consistent
+
+Therefore:
+
+Solution = Complete Assignment + Consistent Assignment
+
+
+COMPLETE ASSIGNMENT:
+
+Every variable has been assigned a value.
+
+Example:
+
+Variables = {A, B, C}
+
+Assignment:
+
+A = 1
+B = 2
+C = 3
+
+This is complete because all variables have values.
+
+
+CONSISTENT ASSIGNMENT:
+
+An assignment is consistent if it does not violate any constraints.
+
+Example:
+
+Constraint:
+
+A != B
+
+Assignment:
+
+A = 1
+B = 2
+
+This is consistent.
+
+
+IMPORTANT:
+
+A complete assignment may not be consistent.
+
+A consistent assignment may not be complete.
+
+A valid CSP solution must be BOTH complete and consistent.
+
+
+============================================================
+4. TYPES OF VARIABLES IN CSP
+============================================================
+
+1. DISCRETE VARIABLES
+
+Variables have separate or countable values.
+
+Examples:
+
+Colors = {Red, Green, Blue}
+
+Boolean values = {True, False}
+
+Integers = {1, 2, 3, ...}
+
+Examples of discrete CSP:
+
+Map Coloring
+Sudoku
+N-Queens
+
+
+2. FINITE DOMAIN CSP
+
+The domain contains a limited number of values.
+
+Example:
+
+D(X) = {1, 2, 3}
+
+If there are:
+
+n variables
+d possible values for each variable
+
+Then the maximum number of complete assignments is:
+
+d^n
+
+
+3. INFINITE DOMAIN CSP
+
+The domain contains infinitely many values.
+
+Examples:
+
+Integers
+Strings
+Time values
+
+Applications:
+
+Job scheduling
+Planning
+
+
+4. CONTINUOUS DOMAIN CSP
+
+Variables can take continuous real-number values.
+
+Examples:
+
+Time
+Distance
+Temperature
+Position
+
+
+============================================================
+5. TYPES OF CONSTRAINTS
+============================================================
+
+1. UNARY CONSTRAINT
+
+A unary constraint involves only one variable.
+
+Example:
+
+A != Red
+
+or
+
+X > 5
+
+
+2. BINARY CONSTRAINT
+
+A binary constraint involves two variables.
+
+Example:
+
+A != B
+
+X < Y
+
+
+3. HIGHER-ORDER CONSTRAINT
+
+A higher-order constraint involves three or more variables.
+
+Example:
+
+A + B + C = 10
+
+Cryptarithmetic problems often use higher-order constraints.
+
+
+============================================================
+6. HARD AND SOFT CONSTRAINTS
+============================================================
+
+HARD CONSTRAINT:
+
+A constraint that must be satisfied.
+
+Example:
+
+Two exams cannot be scheduled at the same time for the same student.
+
+If violated, the solution is invalid.
+
+
+SOFT CONSTRAINT:
+
+A preferred condition but not absolutely required.
+
+Example:
+
+A teacher prefers morning classes.
+
+Violating a soft constraint does not necessarily make the solution invalid, but the solution may be less desirable.
+
+
+============================================================
+7. CONSTRAINT GRAPH
+============================================================
+
+A Constraint Graph is a graphical representation of a CSP.
+
+Nodes = Variables
+
+Edges or Arcs = Constraints
+
+Example:
+
+A ----- B
+|       |
+|       |
+C ----- D
+
+Here:
+
+A, B, C, D are variables.
+
+The connections represent constraints.
+
+Constraint graphs are especially useful for Binary CSPs.
+
+
+============================================================
+8. BINARY CSP
+============================================================
+
+A Binary CSP is a CSP where every constraint involves exactly two variables.
+
+Example:
+
+A != B
+
+B != C
+
+A != C
+
+Map coloring is usually represented as a Binary CSP.
+
+
+============================================================
+9. COMMON EXAMPLES OF CSP
+============================================================
+
+1. Map Coloring
+2. Sudoku
+3. N-Queens
+4. Exam Scheduling
+5. Class Timetabling
+6. Job Scheduling
+7. Cryptarithmetic
+8. Resource Allocation
+9. Transportation Scheduling
+10. Factory Scheduling
+
+
+============================================================
+10. MAP COLORING AS A CSP
+============================================================
+
+Suppose there are three regions:
+
+A, B, C
+
+Each region can have one of three colors:
+
+{Red, Green, Blue}
+
+Suppose every region is connected to every other region.
+
+Variables:
+
+A, B, C
+
+Domains:
+
+D(A) = {Red, Green, Blue}
+D(B) = {Red, Green, Blue}
+D(C) = {Red, Green, Blue}
+
+Constraints:
+
+A != B
+A != C
+B != C
+
+One valid solution:
+
+A = Red
+B = Green
+C = Blue
+
+
+============================================================
+11. STANDARD SEARCH FORMULATION OF CSP
+============================================================
+
+A CSP can be formulated as a search problem.
+
+INITIAL STATE:
+
+Empty assignment:
+
+{ }
+
+
+SUCCESSOR FUNCTION:
+
+Assign a value to an unassigned variable without violating constraints.
+
+
+GOAL TEST:
+
+All variables are assigned and all constraints are satisfied.
+
+
+CSP can be solved using search algorithms, but specialized CSP algorithms are usually more efficient.
+
+
+============================================================
+12. BACKTRACKING SEARCH
+============================================================
+
+Backtracking Search is the basic search algorithm for CSP.
+
+It is essentially a Depth-First Search (DFS) where one variable is assigned at a time.
+
+Process:
+
+1. Select an unassigned variable.
+2. Assign a possible value.
+3. Check whether the assignment satisfies constraints.
+4. If valid, continue.
+5. If invalid, try another value.
+6. If no value works, go back to the previous variable.
+
+This process is called Backtracking.
+
+
+============================================================
+13. BACKTRACKING ALGORITHM
+============================================================
+
+BACKTRACKING(assignment):
+
+If assignment is complete:
+    Return assignment
+
+Select an unassigned variable
+
+For each value in the variable's domain:
+
+    If value is consistent with constraints:
+
+        Assign the value
+
+        Result = BACKTRACKING(assignment)
+
+        If result is successful:
+            Return result
+
+        Remove the assignment
+
+Return Failure
+
+
+============================================================
+14. BACKTRACKING EXAMPLE
+============================================================
+
+Variables:
+
+A, B, C
+
+Domain:
+
+{1, 2, 3}
+
+Constraints:
+
+A != B
+B != C
+A != C
+
+
+Step 1:
+
+Assign:
+
+A = 1
+
+
+Step 2:
+
+Try:
+
+B = 1
+
+A != B is violated.
+
+Invalid.
+
+Try:
+
+B = 2
+
+Valid.
+
+
+Step 3:
+
+Try:
+
+C = 1
+
+A != C is violated.
+
+Invalid.
+
+Try:
+
+C = 2
+
+B != C is violated.
+
+Invalid.
+
+Try:
+
+C = 3
+
+Valid.
+
+
+Final Solution:
+
+A = 1
+B = 2
+C = 3
+
+
+============================================================
+15. WHY BACKTRACKING IS BETTER THAN NAIVE SEARCH
+============================================================
+
+Variable assignments are commutative.
+
+For example:
+
+A = Red, B = Green
+
+is the same final assignment as:
+
+B = Green, A = Red
+
+Naive search may explore both orders.
+
+Backtracking avoids unnecessary duplicate ordering by assigning one variable at each level.
+
+Therefore, Backtracking is more efficient for CSP.
+
+
+============================================================
+16. BACKTRACKING TIME COMPLEXITY
+============================================================
+
+Suppose:
+
+n = Number of variables
+d = Domain size
+
+Worst-case complexity:
+
+O(d^n)
+
+This can become very large.
+
+Therefore, heuristics and constraint propagation techniques are used to improve efficiency.
+
+
+============================================================
+17. IMPROVING BACKTRACKING EFFICIENCY
+============================================================
+
+Three important questions:
+
+1. Which variable should be selected next?
+
+Techniques:
+
+MRV
+Degree Heuristic
+
+
+2. Which value should be selected first?
+
+Technique:
+
+LCV
+
+
+3. How can failure be detected early?
+
+Techniques:
+
+Forward Checking
+Constraint Propagation
+Arc Consistency
+
+
+============================================================
+18. MRV (MINIMUM REMAINING VALUES)
+============================================================
+
+MRV is a variable-selection heuristic.
+
+MRV selects the variable with the fewest remaining legal values.
+
+It is also called:
+
+Most Constrained Variable Heuristic.
+
+
+Example:
+
+A = {1, 2, 3}
+B = {1}
+C = {1, 2}
+
+MRV selects:
+
+B
+
+Because B has only one remaining legal value.
+
+
+Purpose:
+
+Detect failure early.
+
+This follows the "Fail Fast" principle.
+
+
+============================================================
+19. DEGREE HEURISTIC
+============================================================
+
+The Degree Heuristic selects the variable that has constraints with the largest number of unassigned variables.
+
+It is also known as:
+
+Most Constraining Variable Heuristic.
+
+
+Example:
+
+Variable A is connected to 5 unassigned variables.
+
+Variable B is connected to 2 unassigned variables.
+
+Choose:
+
+A
+
+Because A constrains more variables.
+
+
+Usually, Degree Heuristic is used as a tie-breaker when multiple variables have the same MRV value.
+
+
+============================================================
+20. MRV VS DEGREE HEURISTIC
+============================================================
+
+MRV:
+
+Selects the variable with the fewest remaining legal values.
+
+Degree Heuristic:
+
+Selects the variable that constrains the largest number of remaining variables.
+
+
+Easy Memory:
+
+Most Constrained = Receives more restrictions
+
+Most Constraining = Gives more restrictions
+
+
+============================================================
+21. LCV (LEAST CONSTRAINING VALUE)
+============================================================
+
+LCV is a value-selection heuristic.
+
+It selects the value that eliminates the fewest possible values from neighboring variables.
+
+The goal is to leave maximum flexibility for future assignments.
+
+
+Example:
+
+Variable X has:
+
+{1, 2, 3}
+
+Suppose:
+
+X = 1 eliminates 4 values from neighbors.
+
+X = 2 eliminates 1 value from neighbors.
+
+X = 3 eliminates 3 values from neighbors.
+
+LCV selects:
+
+X = 2
+
+Because it restricts other variables the least.
+
+
+IMPORTANT:
+
+LCV does NOT mean selecting the numerically smallest value.
+
+It means selecting the value that creates the least restriction.
+
+
+============================================================
+22. FORWARD CHECKING
+============================================================
+
+Forward Checking is used with Backtracking Search.
+
+After assigning a value to a variable:
+
+1. Check all connected unassigned variables.
+2. Remove values that are no longer valid.
+3. Update their domains.
+4. If any domain becomes empty, immediately backtrack.
+
+
+Main idea:
+
+Detect future failure early.
+
+
+============================================================
+23. FORWARD CHECKING EXAMPLE
+============================================================
+
+Variables:
+
+A, B, C
+
+Domains:
+
+A = {Red, Green}
+B = {Red, Green}
+C = {Red, Green}
+
+Constraints:
+
+A != B
+A != C
+
+Assign:
+
+A = Red
+
+Now:
+
+Because A != B:
+
+Remove Red from B.
+
+B = {Green}
+
+Because A != C:
+
+Remove Red from C.
+
+C = {Green}
+
+Forward Checking updates the domains of future variables.
+
+
+============================================================
+24. LIMITATION OF FORWARD CHECKING
+============================================================
+
+Forward Checking cannot detect every possible future failure.
+
+It only checks the effects of assigned variables on unassigned variables.
+
+There may still be conflicts between unassigned variables that Forward Checking does not immediately detect.
+
+For stronger reasoning, Constraint Propagation is used.
+
+
+============================================================
+25. CONSTRAINT PROPAGATION
+============================================================
+
+Constraint Propagation repeatedly applies constraints to reduce the possible values in domains.
+
+Its purposes are:
+
+1. Reduce search space.
+2. Remove impossible values.
+3. Detect inconsistencies earlier.
+4. Propagate information through the constraint network.
+
+
+Forward Checking is a simpler form of constraint propagation.
+
+Arc Consistency is a stronger form of constraint propagation.
+
+
+============================================================
+26. ARC CONSISTENCY
+============================================================
+
+Arc Consistency is used mainly in Binary CSPs.
+
+For an arc:
+
+X -> Y
+
+The arc is consistent if:
+
+For every value of X, there exists at least one value of Y that satisfies the constraint.
+
+
+If a value of X has no supporting value in Y, that value is removed from X's domain.
+
+
+============================================================
+27. ARC CONSISTENCY EXAMPLE
+============================================================
+
+Domains:
+
+D(X) = {1, 2, 3}
+
+D(Y) = {2}
+
+Constraint:
+
+X < Y
+
+
+Check X = 1:
+
+1 < 2
+
+Valid.
+
+Therefore, 1 has support.
+
+
+Check X = 2:
+
+2 < 2
+
+Invalid.
+
+No support.
+
+Remove 2.
+
+
+Check X = 3:
+
+3 < 2
+
+Invalid.
+
+No support.
+
+Remove 3.
+
+
+Final Domain:
+
+D(X) = {1}
+
+D(Y) = {2}
+
+
+============================================================
+28. ARC CONSISTENCY IMPORTANT POINT
+============================================================
+
+Arc Consistency does NOT guarantee a complete solution.
+
+It only guarantees local consistency between variables.
+
+A CSP can be arc-consistent but still have no complete valid solution.
+
+
+============================================================
+29. FORWARD CHECKING VS ARC CONSISTENCY
+============================================================
+
+FORWARD CHECKING:
+
+Checks future domains after an assignment.
+
+Simpler and faster.
+
+May fail to detect some future inconsistencies.
+
+
+ARC CONSISTENCY:
+
+Repeatedly checks relationships between variables.
+
+Stronger than Forward Checking.
+
+Can detect inconsistencies earlier.
+
+Requires more computation.
+
+
+============================================================
+30. AC-3 ALGORITHM
+============================================================
+
+AC-3 is an algorithm used to enforce Arc Consistency.
+
+
+Basic Process:
+
+1. Put all arcs into a queue.
+2. Remove one arc from the queue.
+3. Check consistency.
+4. Remove unsupported values.
+5. If a domain changes, add related arcs back to the queue.
+6. Continue until the queue becomes empty.
+
+
+Simplified Algorithm:
+
+Put all arcs in a queue.
+
+While queue is not empty:
+
+    Remove arc (Xi, Xj)
+
+    Check whether Xi is consistent with Xj
+
+    If Xi loses values:
+
+        If domain of Xi becomes empty:
+            Return Failure
+
+        Add neighboring arcs of Xi back to queue
+
+Return Success
+
+
+Worst-case time complexity commonly given for AC-3:
+
+O(n^2 d^3)
+
+Where:
+
+n = Number of variables
+d = Domain size
+
+
+============================================================
+31. LOCAL SEARCH FOR CSP
+============================================================
+
+CSP can also be solved using Local Search.
+
+Unlike Backtracking Search, Local Search usually starts with a complete assignment.
+
+Some constraints may initially be violated.
+
+The algorithm repeatedly changes values to reduce conflicts.
+
+
+Examples of Local Search:
+
+Hill Climbing
+Simulated Annealing
+Min-Conflicts
+
+
+============================================================
+32. MIN-CONFLICTS HEURISTIC
+============================================================
+
+Min-Conflicts is a Local Search technique for CSP.
+
+Process:
+
+1. Start with a complete assignment.
+2. Select a variable involved in a conflict.
+3. Assign the value that creates the minimum number of conflicts.
+4. Repeat until a solution is found.
+
+
+It is especially effective for:
+
+N-Queens
+Scheduling Problems
+Large CSPs
+
+
+============================================================
+33. BACKTRACKING VS LOCAL SEARCH
+============================================================
+
+BACKTRACKING:
+
+Starts with an empty assignment.
+
+Assigns variables step by step.
+
+Uses Depth-First Search.
+
+Backtracks when failure occurs.
+
+Systematic search.
+
+
+LOCAL SEARCH:
+
+Usually starts with a complete assignment.
+
+Some constraints may initially be violated.
+
+Improves the assignment gradually.
+
+Uses iterative improvement.
+
+Attempts to minimize conflicts.
+
+
+============================================================
+34. N-QUEENS AS A CSP
+============================================================
+
+For N-Queens:
+
+Variables:
+
+Q1, Q2, Q3, ..., Qn
+
+Each variable represents the row position of a queen in a specific column.
+
+
+Domain:
+
+For 4-Queens:
+
+D(Qi) = {1, 2, 3, 4}
+
+
+Constraints:
+
+
+1. No two queens in the same row:
+
+Qi != Qj
+
+
+2. No two queens on the same diagonal:
+
+|Qi - Qj| != |i - j|
+
+
+This ensures that no queen attacks another queen.
+
+
+============================================================
+35. SUDOKU AS A CSP
+============================================================
+
+Variables:
+
+Empty cells in the Sudoku board.
+
+
+Domain:
+
+{1, 2, 3, 4, 5, 6, 7, 8, 9}
+
+
+Constraints:
+
+1. No repeated number in a row.
+2. No repeated number in a column.
+3. No repeated number in a 3x3 box.
+
+
+============================================================
+36. CRYPTARITHMETIC AS A CSP
+============================================================
+
+Example:
+
+  SEND
++ MORE
+------
+ MONEY
+
+
+Variables:
+
+S, E, N, D, M, O, R, Y
+
+
+Domain:
+
+{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+
+
+Constraints:
+
+1. Different letters have different digits.
+
+AllDifferent(S, E, N, D, M, O, R, Y)
+
+
+2. Leading digits cannot be zero.
+
+S != 0
+
+M != 0
+
+
+3. Arithmetic constraints must be satisfied.
+
+
+============================================================
+37. CONSTRAINT OPTIMIZATION PROBLEM (COP)
+============================================================
+
+Normal CSP:
+
+Find any solution satisfying all constraints.
+
+
+Constraint Optimization Problem:
+
+Find the best solution while satisfying constraints.
+
+
+Example:
+
+Exam scheduling.
+
+Hard constraint:
+
+A student cannot have two exams at the same time.
+
+
+Optimization objective:
+
+Minimize the number of evening exams.
+
+
+============================================================
+38. CSP VS STANDARD SEARCH
+============================================================
+
+STANDARD SEARCH:
+
+General state-space search.
+
+States may be treated as black boxes.
+
+Uses general successor functions and goal tests.
+
+
+CSP:
+
+Structured search problem.
+
+States are defined using variables.
+
+Variables have domains.
+
+Constraints define legal assignments.
+
+Specialized heuristics and propagation methods can improve efficiency.
+
+
+============================================================
+39. IMPORTANT CSP COMPARISONS
+============================================================
+
+COMPLETE VS CONSISTENT:
+
+Complete = All variables assigned.
+
+Consistent = No constraints violated.
+
+
+MRV VS DEGREE HEURISTIC:
+
+MRV = Fewest remaining legal values.
+
+Degree = Most constraints on other variables.
+
+
+MRV VS LCV:
+
+MRV = Selects variable.
+
+LCV = Selects value.
+
+
+FORWARD CHECKING VS ARC CONSISTENCY:
+
+Forward Checking = Checks future domains after assignment.
+
+Arc Consistency = Ensures values have support between connected variables.
+
+
+BACKTRACKING VS LOCAL SEARCH:
+
+Backtracking = Builds assignment gradually.
+
+Local Search = Improves a complete assignment.
+
+
+============================================================
+40. IMPORTANT TRICK QUESTIONS
+============================================================
+
+Q: Is every complete assignment a solution?
+
+Answer:
+
+No. A complete assignment may violate constraints.
+
+
+Q: Is every consistent assignment a solution?
+
+Answer:
+
+No. It may be incomplete.
+
+
+Q: Does MRV select the variable with the most constraints?
+
+Answer:
+
+No.
+
+MRV selects the variable with the fewest remaining legal values.
+
+
+Q: Does LCV select the smallest numerical value?
+
+Answer:
+
+No.
+
+LCV selects the value that restricts other variables the least.
+
+
+Q: Does Forward Checking guarantee that no future failure will happen?
+
+Answer:
+
+No.
+
+It detects some future failures but not all.
+
+
+Q: Does Arc Consistency guarantee a complete solution?
+
+Answer:
+
+No.
+
+It only ensures local consistency.
+
+
+Q: Is Backtracking an informed search algorithm?
+
+Answer:
+
+Basic Backtracking Search is an uninformed search algorithm for CSP.
+
+
+Q: What is the main purpose of CSP heuristics?
+
+Answer:
+
+To reduce the search space and find solutions more efficiently.
+
+
+============================================================
+41. IMPORTANT SHORT QUESTIONS FOR EXAM
+============================================================
+
+1. What is a Constraint Satisfaction Problem?
+
+2. Define CSP using X, D, and C.
+
+3. What are Variables in CSP?
+
+4. What is a Domain?
+
+5. What is a Constraint?
+
+6. What is a complete assignment?
+
+7. What is a consistent assignment?
+
+8. What is a CSP solution?
+
+9. What is a Constraint Graph?
+
+10. What is a Binary CSP?
+
+11. What is a Unary Constraint?
+
+12. What is a Binary Constraint?
+
+13. What is a Higher-Order Constraint?
+
+14. What is Backtracking Search?
+
+15. Why is Backtracking used for CSP?
+
+16. What is the time complexity of Backtracking?
+
+17. What is MRV?
+
+18. Why is MRV called Most Constrained Variable?
+
+19. What is Degree Heuristic?
+
+20. What is Most Constraining Variable?
+
+21. What is LCV?
+
+22. What is Forward Checking?
+
+23. What is Constraint Propagation?
+
+24. What is Arc Consistency?
+
+25. What is AC-3?
+
+26. What is Local Search in CSP?
+
+27. What is Min-Conflicts?
+
+28. What are Hard Constraints?
+
+29. What are Soft Constraints?
+
+30. What is Constraint Optimization?
+
+
+============================================================
+42. IMPORTANT SIMULATION QUESTION TYPES
+============================================================
+
+1. Given a problem, identify:
+
+Variables
+Domains
+Constraints
+
+
+2. Solve a Map Coloring problem.
+
+
+3. Solve a CSP using Backtracking.
+
+
+4. Select a variable using MRV.
+
+
+5. Select a variable using Degree Heuristic.
+
+
+6. Select a value using LCV.
+
+
+7. Apply Forward Checking and update domains.
+
+
+8. Apply Arc Consistency and remove unsupported values.
+
+
+9. Formulate N-Queens as CSP.
+
+
+10. Formulate Sudoku as CSP.
+
+
+11. Apply Min-Conflicts to a simple problem.
+
+
+12. Identify Unary, Binary, and Higher-Order constraints.
+
+
+============================================================
+43. MOST IMPORTANT TOPICS FOR YOUR MIDTERM
+============================================================
+
+PRIORITY 1:
+
+CSP Components:
+Variables
+Domains
+Constraints
+
+Complete vs Consistent Assignment
+
+Map Coloring
+
+Backtracking Search
+
+
+PRIORITY 2:
+
+MRV
+
+Degree Heuristic / Most Constraining Variable
+
+LCV
+
+Forward Checking
+
+
+PRIORITY 3:
+
+Constraint Propagation
+
+Arc Consistency
+
+AC-3
+
+
+PRIORITY 4:
+
+Local Search
+
+Min-Conflicts
+
+N-Queens
+
+Cryptarithmetic
+
+
+============================================================
+44. FINAL QUICK REVISION SHEET
+============================================================
+
+CSP = Variables + Domains + Constraints
+
+Solution = Complete + Consistent Assignment
+
+Unary Constraint = One Variable
+
+Binary Constraint = Two Variables
+
+Higher-Order Constraint = Three or More Variables
+
+Backtracking = DFS + Try + Fail + Go Back
+
+MRV = Fewest Remaining Values
+
+Degree Heuristic = Most Constraints on Others
+
+LCV = Restricts Others the Least
+
+Forward Checking = Check Future Domains
+
+Constraint Propagation = Repeatedly Enforce Constraints
+
+Arc Consistency = Every Value Needs Supporting Value
+
+AC-3 = Arc Consistency Algorithm
+
+Local Search = Improve Complete Assignment
+
+Min-Conflicts = Select Value with Minimum Conflict
+
+
