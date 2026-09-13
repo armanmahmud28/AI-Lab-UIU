@@ -1,0 +1,1504 @@
+
+DATA PROCESSING::
+
+============================================================
+1. INTRODUCTION TO DATA PROCESSING
+============================================================
+
+Data Processing is the process of collecting, cleaning, transforming, organizing, and preparing raw data so that it can be used for analysis or Machine Learning.
+
+Raw data may contain:
+- Missing values
+- Duplicate records
+- Incorrect or inconsistent values
+- Categorical/text values
+- Different numerical scales
+- Unnecessary information
+
+The main purpose of data processing is to convert raw data into clean, organized, meaningful, and usable data.
+
+Simple Definition:
+Data processing is the process of converting raw data into meaningful and usable information for analysis and machine learning.
+
+
+============================================================
+2. COMPLETE DATA PROCESSING WORKFLOW
+============================================================
+
+The complete workflow is:
+
+1. Load Dataset
+2. Explore and Understand Dataset
+3. Check Data Quality
+4. Detect Missing Values
+5. Handle Missing Values
+6. Detect and Remove Duplicate Data
+7. Separate Features and Target
+8. Encode Categorical Data
+9. Apply Feature Scaling
+10. Perform Correlation Analysis
+11. Visualize Data
+12. Split Data into Training and Testing Sets
+13. Train Machine Learning Model
+14. Evaluate Model Performance
+
+
+============================================================
+3. DATASET
+============================================================
+
+A dataset is an organized collection of related data, usually arranged in rows and columns.
+
+Example:
+
+Student | Age | Marks
+A       | 20  | 80
+B       | 21  | 75
+C       | 22  | 90
+
+Rows represent individual records or samples.
+
+Columns represent variables or attributes.
+
+
+============================================================
+4. DATAFRAME
+============================================================
+
+A DataFrame is a tabular data structure consisting of rows and columns used to store and manipulate structured data.
+
+
+============================================================
+5. DATASET EXPLORATION
+============================================================
+
+Before processing a dataset, we need to understand it.
+
+Important things to check:
+
+- Number of rows
+- Number of columns
+- Column names
+- Data types
+- Statistical summary
+- Missing values
+- Duplicate records
+
+
+============================================================
+6. DATASET SHAPE
+============================================================
+
+Dataset shape represents:
+
+(Number of Rows, Number of Columns)
+
+Example:
+
+Dataset Shape = (150, 5)
+
+This means:
+
+Rows = 150
+Columns = 5
+
+Example Question:
+
+Dataset Shape = (200, 8)
+
+Answer:
+
+Rows = 200
+Columns = 8
+
+
+============================================================
+7. STATISTICAL SUMMARY
+============================================================
+
+A statistical summary provides important information about numerical data.
+
+It usually includes:
+
+- Count
+- Mean
+- Standard Deviation
+- Minimum
+- 25%
+- 50% (Median)
+- 75%
+- Maximum
+
+
+============================================================
+8. MEAN
+============================================================
+
+Mean means the average value.
+
+Formula:
+
+Mean = Sum of all values / Number of values
+
+Example:
+
+Values:
+
+10, 20, 30
+
+Mean = (10 + 20 + 30) / 3
+
+Mean = 20
+
+
+============================================================
+9. MEDIAN
+============================================================
+
+Median is the middle value after arranging data in ascending or descending order.
+
+Example:
+
+10, 20, 30, 40, 50
+
+Median = 30
+
+
+============================================================
+10. STANDARD DEVIATION
+============================================================
+
+Standard deviation measures how much the data values are spread around the mean.
+
+Small Standard Deviation:
+Values are close to the mean.
+
+Large Standard Deviation:
+Values are widely spread.
+
+
+============================================================
+11. MISSING VALUES
+============================================================
+
+A missing value means some data is unavailable or not recorded.
+
+It may be represented as:
+
+- NaN
+- Null
+- None
+- Blank
+
+Example:
+
+Name | Age | Salary
+A    | 20  | 30000
+B    | NaN | 40000
+C    | 30  | NaN
+
+Here:
+
+B's Age is missing.
+C's Salary is missing.
+
+
+============================================================
+12. WHY MISSING VALUES ARE A PROBLEM
+============================================================
+
+Missing values can:
+
+- Reduce data quality
+- Cause errors during analysis
+- Affect machine learning performance
+- Produce incorrect results
+- Make the dataset incomplete
+
+Therefore, missing values need to be handled properly.
+
+
+============================================================
+13. HANDLING MISSING VALUES
+============================================================
+
+There are two common methods:
+
+1. Fill missing values
+2. Drop missing values
+
+
+============================================================
+14. MEAN IMPUTATION
+============================================================
+
+Mean Imputation means replacing missing numerical values with the average value of that column.
+
+Example:
+
+Age
+
+20
+30
+NaN
+40
+
+Mean = (20 + 30 + 40) / 3
+
+Mean = 30
+
+Replace NaN with 30.
+
+Final Data:
+
+20
+30
+30
+40
+
+
+Advantages of Mean Imputation:
+
+- Keeps the dataset size
+- Does not remove the entire row
+- Simple and easy to use
+
+Disadvantage:
+
+If there are too many missing values, it may affect the original distribution of data.
+
+
+============================================================
+15. MISSING TARGET VALUES
+============================================================
+
+Suppose:
+
+Feature 1 | Feature 2 | Species
+5.1       | 3.5       | Setosa
+6.0       | 2.9       | NaN
+6.5       | 3.0       | Virginica
+
+The row with missing Species should generally be removed.
+
+Reason:
+
+Species is the target variable.
+
+In supervised machine learning:
+
+Features = Input
+Target = Expected Output
+
+If the target is missing, the correct output is unknown.
+
+Therefore, the sample cannot be properly used for supervised training.
+
+
+============================================================
+16. FILLING VS DROPPING MISSING VALUES
+============================================================
+
+Filling Missing Values:
+- Replaces missing values
+- Keeps dataset size
+- Often used for numerical features
+- Example: Replace with mean
+
+Dropping Missing Values:
+- Removes rows or columns containing missing values
+- Reduces dataset size
+- Often used when important information such as the target is missing
+
+
+============================================================
+17. DUPLICATE DATA
+============================================================
+
+Duplicate data means the same record appears more than once.
+
+Example:
+
+ID | Name | Age
+1  | A    | 20
+2  | B    | 25
+1  | A    | 20
+3  | C    | 30
+
+The first and third rows are duplicates.
+
+
+============================================================
+18. WHY DUPLICATE DATA SHOULD BE REMOVED
+============================================================
+
+Duplicate records can:
+
+- Bias the dataset
+- Give extra importance to some records
+- Affect statistical analysis
+- Cause overrepresentation
+- Negatively affect model performance
+
+Therefore, duplicate rows should usually be removed.
+
+
+============================================================
+19. FEATURE AND TARGET
+============================================================
+
+Machine Learning datasets usually contain:
+
+Features (X)
+Target (y)
+
+
+FEATURE:
+
+Features are input variables used by a machine learning model to make predictions.
+
+
+TARGET:
+
+The target is the output variable that the model tries to predict.
+
+
+Example:
+
+Age | Salary | Experience | Purchased
+
+Features:
+
+- Age
+- Salary
+- Experience
+
+Target:
+
+- Purchased
+
+
+============================================================
+20. FEATURE VS TARGET
+============================================================
+
+Features:
+Input variables used for prediction.
+
+Target:
+Output variable that needs to be predicted.
+
+Simple Definition:
+
+Features are inputs, while the target is the expected output.
+
+
+============================================================
+21. IRIS DATASET
+============================================================
+
+The Iris dataset contains flower measurements.
+
+Features:
+
+- Sepal Length
+- Sepal Width
+- Petal Length
+- Petal Width
+
+Target:
+
+- Species
+
+The species are:
+
+- Setosa
+- Versicolor
+- Virginica
+
+
+============================================================
+22. CATEGORICAL DATA
+============================================================
+
+Categorical data contains labels or categories instead of continuous numerical values.
+
+Examples:
+
+Male / Female
+
+Red / Blue / Green
+
+Setosa / Versicolor / Virginica
+
+
+============================================================
+23. LABEL ENCODING
+============================================================
+
+Label Encoding converts categorical labels into numerical values.
+
+Example:
+
+Setosa = 0
+Versicolor = 1
+Virginica = 2
+
+Example:
+
+Original Data:
+
+Setosa
+Virginica
+Versicolor
+Setosa
+
+Encoded Data:
+
+0
+2
+1
+0
+
+
+Why Label Encoding is used:
+
+Machine learning algorithms generally require numerical data.
+
+Therefore, categorical labels need to be converted into numerical representations.
+
+Important:
+
+The numbers 0, 1, and 2 represent categories.
+
+They do not necessarily indicate mathematical importance or ranking.
+
+
+============================================================
+24. FEATURE SCALING
+============================================================
+
+Different features may have different numerical ranges.
+
+Example:
+
+Feature      Range
+Age          18–60
+Salary       20000–100000
+
+Salary has much larger values than Age.
+
+In some machine learning algorithms, larger values can have greater influence.
+
+Therefore, Feature Scaling is used.
+
+
+============================================================
+25. WHAT IS FEATURE SCALING?
+============================================================
+
+Feature Scaling is the process of transforming numerical features into a common range or scale.
+
+Why it is important:
+
+It prevents features with larger numerical values from dominating features with smaller numerical values.
+
+
+============================================================
+26. MIN-MAX SCALING
+============================================================
+
+Min-Max Scaling transforms values into a range between 0 and 1.
+
+Formula:
+
+X' = (X - Xmin) / (Xmax - Xmin)
+
+Where:
+
+X = Original Value
+Xmin = Minimum Value
+Xmax = Maximum Value
+X' = Scaled Value
+
+
+Important:
+
+After Min-Max Scaling:
+
+Minimum Value = 0
+Maximum Value = 1
+Other Values = Between 0 and 1
+
+
+============================================================
+27. MIN-MAX SCALING EXAMPLE
+============================================================
+
+Given:
+
+10, 20, 30, 40, 50
+
+Normalize 30.
+
+X = 30
+Xmin = 10
+Xmax = 50
+
+Formula:
+
+X' = (30 - 10) / (50 - 10)
+
+X' = 20 / 40
+
+X' = 0.5
+
+Answer:
+
+30 becomes 0.5
+
+
+============================================================
+28. FULL MIN-MAX SCALING EXAMPLE
+============================================================
+
+Given:
+
+10, 20, 30, 40, 50
+
+Minimum = 10
+Maximum = 50
+
+Formula:
+
+X' = (X - 10) / (50 - 10)
+
+10 = (10 - 10) / 40 = 0
+
+20 = (20 - 10) / 40 = 0.25
+
+30 = (30 - 10) / 40 = 0.50
+
+40 = (40 - 10) / 40 = 0.75
+
+50 = (50 - 10) / 40 = 1.00
+
+Final Result:
+
+0, 0.25, 0.50, 0.75, 1.00
+
+
+============================================================
+29. CORRELATION
+============================================================
+
+Correlation measures the strength and direction of the relationship between two variables.
+
+The correlation range is:
+
+-1 to +1
+
+-1 = Perfect Negative Relationship
+0 = No Linear Relationship
++1 = Perfect Positive Relationship
+
+
+============================================================
+30. POSITIVE CORRELATION
+============================================================
+
+Positive correlation means:
+
+When one variable increases, the other variable also tends to increase.
+
+Example:
+
+Study Time increases
+Exam Performance increases
+
+
+============================================================
+31. NEGATIVE CORRELATION
+============================================================
+
+Negative correlation means:
+
+When one variable increases, the other variable tends to decrease.
+
+Example:
+
+Price increases
+Demand decreases
+
+
+============================================================
+32. ZERO CORRELATION
+============================================================
+
+Zero correlation means there is no linear relationship between two variables.
+
+
+============================================================
+33. ABSOLUTE CORRELATION
+============================================================
+
+Absolute correlation measures the strength of a relationship regardless of direction.
+
+Example:
+
+Correlation = -0.85
+
+Absolute Correlation = 0.85
+
+Both +0.85 and -0.85 indicate strong relationships.
+
+
+============================================================
+34. DATA VISUALIZATION
+============================================================
+
+Data Visualization means representing data graphically.
+
+Common visualization methods:
+
+- Bar Chart
+- Scatter Plot
+- Line Chart
+- Histogram
+- Heatmap
+
+
+============================================================
+35. WHY DATA VISUALIZATION IS IMPORTANT
+============================================================
+
+Data visualization helps identify:
+
+- Patterns
+- Relationships
+- Trends
+- Distribution
+- Outliers
+- Class differences
+- Data separability
+
+
+============================================================
+36. TRAIN-TEST SPLIT
+============================================================
+
+Train-Test Split divides the dataset into two parts:
+
+1. Training Data
+2. Testing Data
+
+
+Training Data:
+
+Used to train the machine learning model.
+
+
+Testing Data:
+
+Used to evaluate the model using unseen data.
+
+
+============================================================
+37. TRAIN-TEST SPLIT EXAMPLE
+============================================================
+
+Suppose:
+
+Total Dataset = 1000 Records
+
+Test Size = 20%
+
+Testing Data:
+
+1000 × 20% = 200
+
+Training Data:
+
+1000 - 200 = 800
+
+Answer:
+
+Training Data = 800
+Testing Data = 200
+
+
+============================================================
+38. RANDOM STATE
+============================================================
+
+Random State ensures reproducibility.
+
+Without a fixed random state:
+
+Run 1 may produce one train-test split.
+Run 2 may produce a different train-test split.
+
+With the same random state:
+
+Run 1 and Run 2 produce the same split.
+
+Simple Definition:
+
+Random State ensures consistent and reproducible results.
+
+
+============================================================
+39. LOGISTIC REGRESSION
+============================================================
+
+Logistic Regression is a machine learning algorithm commonly used for classification problems.
+
+Example:
+
+Input:
+
+Flower Measurements
+
+Output:
+
+Flower Species
+
+For the Iris dataset, Logistic Regression predicts:
+
+- Setosa
+- Versicolor
+- Virginica
+
+
+============================================================
+40. MODEL PREDICTION
+============================================================
+
+After training:
+
+Unseen Test Data
+        ↓
+Model Makes Prediction
+        ↓
+Prediction is Compared with Actual Value
+
+Example:
+
+Actual       Predicted
+Setosa       Setosa
+Virginica    Virginica
+Versicolor   Setosa
+
+First two predictions are correct.
+Third prediction is incorrect.
+
+
+============================================================
+41. ACCURACY
+============================================================
+
+Accuracy measures how many predictions are correct.
+
+Formula:
+
+Accuracy = Correct Predictions / Total Predictions
+
+Example:
+
+Total Predictions = 50
+Correct Predictions = 42
+
+Accuracy = 42 / 50
+
+Accuracy = 0.84
+
+Percentage Accuracy = 84%
+
+
+============================================================
+42. PRECISION
+============================================================
+
+Precision answers:
+
+Out of all predicted positive results, how many were actually correct?
+
+Simple idea:
+
+When the model says YES, how often is it correct?
+
+
+============================================================
+43. RECALL
+============================================================
+
+Recall answers:
+
+Out of all actual positive cases, how many were correctly identified?
+
+Simple idea:
+
+How many actual cases did the model successfully find?
+
+
+============================================================
+44. F1 SCORE
+============================================================
+
+F1 Score combines Precision and Recall into a single measurement.
+
+It is useful when both Precision and Recall are important.
+
+
+============================================================
+45. CONFUSION MATRIX
+============================================================
+
+A Confusion Matrix compares:
+
+Actual Values
+vs
+Predicted Values
+
+For binary classification:
+
+                    Predicted Positive   Predicted Negative
+
+Actual Positive     True Positive        False Negative
+
+Actual Negative     False Positive       True Negative
+
+
+True Positive (TP):
+Predicted positive and actually positive.
+
+True Negative (TN):
+Predicted negative and actually negative.
+
+False Positive (FP):
+Predicted positive but actually negative.
+
+False Negative (FN):
+Predicted negative but actually positive.
+
+
+============================================================
+SIMULATION-BASED QUESTIONS
+============================================================
+
+
+QUESTION 1:
+
+Dataset Shape = (250, 8)
+
+Find the number of rows and columns.
+
+ANSWER:
+
+Rows = 250
+Columns = 8
+
+
+------------------------------------------------------------
+
+QUESTION 2:
+
+Given:
+
+10, 20, 30, 40, 50
+
+Find:
+
+1. Mean
+2. Median
+3. Minimum
+4. Maximum
+
+ANSWER:
+
+Mean = (10 + 20 + 30 + 40 + 50) / 5 = 30
+
+Median = 30
+
+Minimum = 10
+
+Maximum = 50
+
+
+------------------------------------------------------------
+
+QUESTION 3:
+
+Given:
+
+Student | Marks
+A       | 60
+B       | 70
+C       | NaN
+D       | 90
+
+Handle the missing value using Mean.
+
+ANSWER:
+
+Mean = (60 + 70 + 90) / 3
+
+Mean = 73.33
+
+Final Marks:
+
+60
+70
+73.33
+90
+
+
+------------------------------------------------------------
+
+QUESTION 4:
+
+Given:
+
+Age | Salary
+20  | 30000
+NaN | 40000
+30  | NaN
+40  | 50000
+
+Replace missing values using column mean.
+
+ANSWER:
+
+Age Mean:
+
+(20 + 30 + 40) / 3 = 30
+
+Salary Mean:
+
+(30000 + 40000 + 50000) / 3 = 40000
+
+Final Dataset:
+
+Age | Salary
+20  | 30000
+30  | 40000
+30  | 40000
+40  | 50000
+
+
+------------------------------------------------------------
+
+QUESTION 5:
+
+Given:
+
+Feature 1 | Feature 2 | Species
+5.1       | 3.5       | Setosa
+6.0       | 2.9       | NaN
+6.5       | 3.0       | Virginica
+
+What should be done?
+
+ANSWER:
+
+Remove the second row because the target value (Species) is missing.
+
+Reason:
+
+A supervised machine learning model requires known target values.
+
+
+------------------------------------------------------------
+
+QUESTION 6:
+
+Given:
+
+ID | Name | Age
+1  | A    | 20
+2  | B    | 25
+1  | A    | 20
+3  | C    | 30
+
+Identify the duplicate.
+
+ANSWER:
+
+The row:
+
+1 | A | 20
+
+appears twice.
+
+One duplicate should be removed.
+
+
+------------------------------------------------------------
+
+QUESTION 7:
+
+Given:
+
+Age | Salary | Experience | Purchased
+25  | 30000  | 2          | Yes
+35  | 50000  | 7          | No
+
+Identify Features and Target.
+
+ANSWER:
+
+Features:
+
+Age
+Salary
+Experience
+
+Target:
+
+Purchased
+
+
+------------------------------------------------------------
+
+QUESTION 8:
+
+Convert the following categorical values using Label Encoding:
+
+Setosa
+Virginica
+Versicolor
+Setosa
+
+Given:
+
+Setosa = 0
+Versicolor = 1
+Virginica = 2
+
+ANSWER:
+
+0
+2
+1
+0
+
+
+------------------------------------------------------------
+
+QUESTION 9:
+
+Given:
+
+10, 20, 30, 40, 50
+
+Apply Min-Max Scaling to 30.
+
+ANSWER:
+
+X = 30
+Xmin = 10
+Xmax = 50
+
+X' = (X - Xmin) / (Xmax - Xmin)
+
+X' = (30 - 10) / (50 - 10)
+
+X' = 20 / 40
+
+X' = 0.5
+
+
+------------------------------------------------------------
+
+QUESTION 10:
+
+Apply Min-Max Scaling to:
+
+10, 20, 30, 40, 50
+
+ANSWER:
+
+10 = 0
+20 = 0.25
+30 = 0.50
+40 = 0.75
+50 = 1.00
+
+
+------------------------------------------------------------
+
+QUESTION 11:
+
+Minimum Value = 50
+Maximum Value = 150
+Original Value = 100
+
+Find the scaled value.
+
+ANSWER:
+
+X' = (100 - 50) / (150 - 50)
+
+X' = 50 / 100
+
+X' = 0.5
+
+
+------------------------------------------------------------
+
+QUESTION 12:
+
+A dataset contains 500 records.
+
+Test Size = 20%
+
+Find Training and Testing Data.
+
+ANSWER:
+
+Testing Data:
+
+500 × 0.20 = 100
+
+Training Data:
+
+500 - 100 = 400
+
+Final Answer:
+
+Training = 400
+Testing = 100
+
+
+------------------------------------------------------------
+
+QUESTION 13:
+
+A dataset contains 150 records.
+
+Test Size = 10%
+
+Find Training and Testing Data.
+
+ANSWER:
+
+Testing:
+
+150 × 0.10 = 15
+
+Training:
+
+150 - 15 = 135
+
+Final Answer:
+
+Training = 135
+Testing = 15
+
+
+------------------------------------------------------------
+
+QUESTION 14:
+
+Total Predictions = 100
+
+Correct Predictions = 90
+
+Calculate Accuracy.
+
+ANSWER:
+
+Accuracy = Correct Predictions / Total Predictions
+
+Accuracy = 90 / 100
+
+Accuracy = 0.90
+
+Accuracy = 90%
+
+
+------------------------------------------------------------
+
+QUESTION 15:
+
+Interpret the following correlation values:
+
+Feature A = 0.90
+Feature B = -0.80
+Feature C = 0.10
+Feature D = 0.00
+
+ANSWER:
+
+Feature A = Strong Positive Correlation
+Feature B = Strong Negative Correlation
+Feature C = Weak Positive Correlation
+Feature D = No Linear Correlation
+
+
+------------------------------------------------------------
+
+QUESTION 16:
+
+Given:
+
+Feature A = -0.85
+Feature B = 0.70
+Feature C = -0.20
+
+Find Absolute Correlation.
+
+ANSWER:
+
+Feature A = 0.85
+Feature B = 0.70
+Feature C = 0.20
+
+Strongest Relationship:
+
+Feature A
+
+
+------------------------------------------------------------
+
+QUESTION 17:
+
+Arrange the following Data Processing Steps:
+
+- Missing Value Handling
+- Feature Scaling
+- Data Loading
+- Label Encoding
+- Duplicate Removal
+- Feature and Target Separation
+- Dataset Exploration
+
+ANSWER:
+
+1. Data Loading
+2. Dataset Exploration
+3. Missing Value Detection
+4. Missing Value Handling
+5. Duplicate Detection and Removal
+6. Feature and Target Separation
+7. Label Encoding
+8. Feature Scaling
+
+
+============================================================
+SHORT CONCEPTUAL QUESTIONS AND ANSWERS
+============================================================
+
+
+Q1. What is Data Processing?
+
+Data processing is the process of collecting, cleaning, transforming, and organizing raw data into meaningful and usable information for analysis or machine learning.
+
+
+Q2. Why is Data Processing important?
+
+Data processing improves data quality by handling missing values, duplicates, inconsistent data, and different scales, making the dataset suitable for analysis and machine learning.
+
+
+Q3. What is a Dataset?
+
+A dataset is an organized collection of related data, usually arranged in rows and columns.
+
+
+Q4. What is a DataFrame?
+
+A DataFrame is a tabular data structure consisting of rows and columns used to store and manipulate structured data.
+
+
+Q5. What does Dataset Shape represent?
+
+Dataset shape represents the number of rows and columns in a dataset.
+
+
+Q6. What is Data Exploration?
+
+Data exploration is the process of examining a dataset to understand its structure, features, statistical properties, and possible problems.
+
+
+Q7. What is a Missing Value?
+
+A missing value is a data value that is unavailable or not recorded in a dataset.
+
+
+Q8. Why are Missing Values problematic?
+
+Missing values can reduce data quality, cause errors during processing, and negatively affect machine learning model performance.
+
+
+Q9. What is Mean Imputation?
+
+Mean imputation is a technique where missing numerical values are replaced with the average value of their respective column.
+
+
+Q10. What is the difference between filling and dropping missing values?
+
+Filling replaces missing values with another value, while dropping removes the row or column containing missing values.
+
+
+Q11. Why are rows with missing target values removed?
+
+Rows with missing target values are removed because supervised machine learning requires known output labels for training.
+
+
+Q12. What is Duplicate Data?
+
+Duplicate data refers to identical records appearing more than once in a dataset.
+
+
+Q13. Why should duplicate records be removed?
+
+Duplicate records can bias analysis, overrepresent certain data, and negatively affect model performance.
+
+
+Q14. What is a Feature?
+
+A feature is an input variable used by a machine learning model to make predictions.
+
+
+Q15. What is a Target Variable?
+
+A target variable is the output variable that a machine learning model tries to predict.
+
+
+Q16. What is the difference between Feature and Target?
+
+Features are input variables, while the target is the output or result that needs to be predicted.
+
+
+Q17. What is Categorical Data?
+
+Categorical data represents labels or groups rather than continuous numerical values.
+
+
+Q18. What is Label Encoding?
+
+Label Encoding converts categorical values into numerical labels so that machine learning algorithms can process them.
+
+
+Q19. Why is Label Encoding needed?
+
+Label Encoding is needed because machine learning algorithms generally require numerical representations of categorical labels.
+
+
+Q20. What is Feature Scaling?
+
+Feature scaling is the process of transforming numerical features into a common range or scale.
+
+
+Q21. Why is Feature Scaling important?
+
+Feature scaling prevents features with larger numerical values from dominating features with smaller numerical values.
+
+
+Q22. What is Min-Max Scaling?
+
+Min-Max Scaling is a normalization technique that transforms values into a specific range, usually between 0 and 1.
+
+Formula:
+
+X' = (X - Xmin) / (Xmax - Xmin)
+
+
+Q23. What happens to minimum and maximum values after Min-Max Scaling?
+
+Minimum Value = 0
+
+Maximum Value = 1
+
+
+Q24. What is Correlation?
+
+Correlation measures the strength and direction of the relationship between two variables.
+
+
+Q25. What is the range of Correlation?
+
+The range is:
+
+-1 to +1
+
+
+Q26. What does Positive Correlation mean?
+
+Positive correlation means that when one variable increases, the other variable tends to increase.
+
+
+Q27. What does Negative Correlation mean?
+
+Negative correlation means that when one variable increases, the other variable tends to decrease.
+
+
+Q28. What does Zero Correlation mean?
+
+Zero correlation indicates no linear relationship between two variables.
+
+
+Q29. What is Data Visualization?
+
+Data visualization is the graphical representation of data using charts, graphs, or plots.
+
+
+Q30. Why is Data Visualization important?
+
+Data visualization helps identify patterns, relationships, distributions, trends, and outliers in data.
+
+
+Q31. What is Train-Test Split?
+
+Train-test split is the process of dividing a dataset into training data and testing data.
+
+
+Q32. What is Training Data?
+
+Training data is used to train the machine learning model.
+
+
+Q33. What is Testing Data?
+
+Testing data is used to evaluate the model's performance on unseen data.
+
+
+Q34. What is Random State?
+
+Random state is used to ensure reproducibility so that the same random results can be obtained repeatedly.
+
+
+Q35. What is Logistic Regression?
+
+Logistic Regression is a machine learning algorithm commonly used for classification problems.
+
+
+Q36. What is Accuracy?
+
+Accuracy measures the proportion of correct predictions among total predictions.
+
+Formula:
+
+Accuracy = Correct Predictions / Total Predictions
+
+
+Q37. What is Precision?
+
+Precision measures how many predicted positive results are actually correct.
+
+
+Q38. What is Recall?
+
+Recall measures how many actual positive cases are correctly identified by the model.
+
+
+Q39. What is F1 Score?
+
+F1 Score is a metric that combines precision and recall into a single measurement.
+
+
+Q40. What is a Confusion Matrix?
+
+A Confusion Matrix is a table used to compare actual values with predicted values to evaluate a classification model.
+
+
