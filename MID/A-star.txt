@@ -1,0 +1,3237 @@
+
+A* SEARCH ::
+
+============================================================
+1. WHAT IS A* SEARCH?
+============================================================
+
+A* (A-Star) Search is an informed search algorithm used to find
+a minimum-cost path from a start node to a goal node.
+
+A* combines:
+
+1. Cost already spent to reach a node
+2. Estimated cost remaining to reach the goal
+
+The main evaluation function is:
+
+f(n) = g(n) + h(n)
+
+Where:
+
+g(n) = Actual cost from the start node to node n
+
+h(n) = Estimated cost from node n to the goal
+
+f(n) = Estimated total cost of a solution through node n
+
+
+IMPORTANT:
+
+A* chooses the node with the smallest f(n) value for expansion.
+
+
+============================================================
+2. WHY IS A* CALLED AN INFORMED SEARCH?
+============================================================
+
+A* is called an informed search algorithm because it uses
+additional knowledge about the problem in the form of a
+heuristic function h(n).
+
+Uninformed search:
+Does not use an estimate of the distance to the goal.
+
+Informed search:
+Uses heuristic information to guide the search toward the goal.
+
+A* uses both:
+
+g(n) = information about the past
+
+h(n) = information about the future
+
+
+============================================================
+3. THREE IMPORTANT VALUES IN A*
+============================================================
+
+Every important node in A* can be associated with:
+
+g(n)
+h(n)
+f(n)
+
+
+g(n):
+
+Actual path cost from the start node to the current node.
+
+Example:
+
+S → A → B
+
+If:
+
+S → A = 2
+A → B = 3
+
+Then:
+
+g(B) = 2 + 3 = 5
+
+
+h(n):
+
+Estimated cost from the current node to the goal.
+
+Example:
+
+h(B) = 7
+
+This means we estimate that approximately 7 more cost is
+required to reach the goal from B.
+
+
+f(n):
+
+Estimated total cost through node n.
+
+Formula:
+
+f(n) = g(n) + h(n)
+
+Example:
+
+g(B) = 5
+h(B) = 7
+
+Therefore:
+
+f(B) = 5 + 7
+f(B) = 12
+
+
+============================================================
+4. BASIC IDEA OF A*
+============================================================
+
+A* repeatedly does the following:
+
+1. Start from the initial node.
+2. Calculate g(n), h(n), and f(n).
+3. Put the node into the OPEN list.
+4. Select the node with the smallest f(n).
+5. Expand that node.
+6. Generate its successors/neighbors.
+7. Calculate their g, h, and f values.
+8. Add/update them in OPEN.
+9. Move expanded nodes to CLOSED.
+10. Repeat until the goal is selected for expansion.
+
+
+IMPORTANT:
+
+A* normally selects the node with the minimum:
+
+f(n) = g(n) + h(n)
+
+
+============================================================
+5. OPEN LIST
+============================================================
+
+The OPEN list contains nodes that have been generated but
+have not yet been expanded.
+
+It can also be thought of as the frontier.
+
+Example:
+
+OPEN:
+
+A
+B
+C
+D
+
+The node having the smallest f(n) is normally selected next.
+
+
+============================================================
+6. CLOSED LIST
+============================================================
+
+The CLOSED list contains nodes that have already been expanded.
+
+Example:
+
+CLOSED:
+
+S
+A
+B
+
+This means S, A, and B have already been processed/expanded.
+
+
+============================================================
+7. OPEN VS CLOSED
+============================================================
+
+OPEN LIST:
+
+Contains nodes waiting to be expanded.
+
+CLOSED LIST:
+
+Contains nodes that have already been expanded.
+
+
+Easy way to remember:
+
+OPEN = "Waiting"
+
+CLOSED = "Already processed"
+
+
+============================================================
+8. NODE EXPANSION
+============================================================
+
+Expanding a node means:
+
+Taking the selected node and generating its neighboring
+or successor nodes.
+
+Example:
+
+       A
+      / \
+     B   C
+
+If A is expanded:
+
+B and C are generated.
+
+
+============================================================
+9. GOAL TEST
+============================================================
+
+The goal test checks whether the selected node is the goal.
+
+A common A* procedure is:
+
+If the selected node is the goal,
+stop and return the solution path.
+
+Otherwise:
+
+Continue expanding nodes.
+
+
+IMPORTANT:
+
+The goal should generally be accepted when it is selected
+for expansion/removal from OPEN, not merely when it is first
+generated, for standard optimal A* behavior.
+
+
+============================================================
+10. HEURISTIC FUNCTION
+============================================================
+
+A heuristic function estimates the cost from the current
+node to the goal.
+
+It is represented as:
+
+h(n)
+
+Example:
+
+If:
+
+h(A) = 8
+
+Then the estimated cost from A to the goal is 8.
+
+
+============================================================
+11. TRUE COST VS HEURISTIC COST
+============================================================
+
+Actual remaining cost:
+
+h*(n)
+
+Heuristic estimate:
+
+h(n)
+
+
+h*(n) = Actual optimal cost from n to goal
+
+h(n) = Estimated cost from n to goal
+
+
+A good heuristic should give useful information about the
+remaining cost without overestimating when optimality is required.
+
+
+============================================================
+12. ADMISSIBLE HEURISTIC
+============================================================
+
+A heuristic is admissible if it never overestimates the actual
+minimum cost from a node to a goal.
+
+Formula:
+
+0 <= h(n) <= h*(n)
+
+Where:
+
+h(n) = heuristic estimate
+
+h*(n) = true optimal remaining cost
+
+
+Example:
+
+True remaining cost = 10
+
+Heuristic = 7
+
+Admissible? YES
+
+Because:
+
+7 <= 10
+
+
+Example:
+
+True remaining cost = 10
+
+Heuristic = 12
+
+Admissible? NO
+
+Because:
+
+12 > 10
+
+
+IMPORTANT:
+
+Admissible means:
+
+"Never overestimate."
+
+
+============================================================
+13. WHY IS ADMISSIBILITY IMPORTANT?
+============================================================
+
+If the heuristic is admissible, A* tree search can find an
+optimal solution under the standard assumptions.
+
+The reason is that the heuristic gives a lower bound on the
+remaining cost.
+
+Therefore:
+
+f(n) = g(n) + h(n)
+
+does not overestimate the actual cost of the best solution
+through n.
+
+============================================================
+14. CONSISTENT HEURISTIC
+============================================================
+
+A heuristic is consistent if, for every edge from n to n':
+
+h(n) <= c(n,n') + h(n')
+
+Where:
+
+c(n,n') = cost of moving from n to n'
+
+This is also called the triangle inequality condition.
+
+
+Simple meaning:
+
+The estimated cost from the current node should not be greater
+than the cost of taking one step to a neighboring node plus the
+neighbor's estimated cost to the goal.
+
+
+============================================================
+15. CONSISTENCY EXAMPLE
+============================================================
+
+Suppose:
+
+h(A) = 8
+
+Edge cost:
+
+A → B = 3
+
+h(B) = 5
+
+Check:
+
+h(A) <= cost(A,B) + h(B)
+
+8 <= 3 + 5
+
+8 <= 8
+
+Therefore:
+
+The heuristic is consistent for this edge.
+
+
+============================================================
+16. INCONSISTENT HEURISTIC EXAMPLE
+============================================================
+
+Suppose:
+
+h(A) = 10
+
+A → B cost = 3
+
+h(B) = 5
+
+Check:
+
+10 <= 3 + 5
+
+10 <= 8
+
+FALSE
+
+Therefore:
+
+The heuristic is NOT consistent.
+
+
+============================================================
+17. ADMISSIBLE VS CONSISTENT
+============================================================
+
+ADMISSIBLE:
+
+Never overestimates the true remaining cost.
+
+CONSISTENT:
+
+Satisfies:
+
+h(n) <= c(n,n') + h(n')
+
+for every edge.
+
+
+IMPORTANT:
+
+Consistency is stronger than admissibility.
+
+Every consistent heuristic is admissible.
+
+But an admissible heuristic is not necessarily consistent.
+
+
+============================================================
+18. IMPORTANT RELATIONSHIP
+============================================================
+
+Consistent
+   ↓
+Admissible
+
+But:
+
+Admissible
+   X
+does NOT always imply
+Consistent
+
+
+============================================================
+19. HEURISTIC AT THE GOAL
+============================================================
+
+For a standard admissible heuristic:
+
+h(goal) = 0
+
+Why?
+
+Because the cost from the goal to itself is zero.
+
+
+============================================================
+20. EXAMPLE OF A* CALCULATION
+============================================================
+
+Suppose:
+
+g(A) = 4
+h(A) = 6
+
+Then:
+
+f(A) = g(A) + h(A)
+
+f(A) = 4 + 6
+
+f(A) = 10
+
+
+============================================================
+21. SIMPLE A* GRAPH
+============================================================
+
+Consider:
+
+        2
+   S -------- A
+   |          |
+  5|          |3
+   |          |
+   B -------- G
+        4
+
+
+Edges:
+
+S → A = 2
+S → B = 5
+A → G = 3
+B → G = 4
+
+Heuristic values:
+
+h(S) = 5
+h(A) = 3
+h(B) = 4
+h(G) = 0
+
+
+Calculate:
+
+For S:
+
+g(S) = 0
+h(S) = 5
+
+f(S) = 0 + 5 = 5
+
+
+For A:
+
+g(A) = 2
+h(A) = 3
+
+f(A) = 2 + 3 = 5
+
+
+For B:
+
+g(B) = 5
+h(B) = 4
+
+f(B) = 5 + 4 = 9
+
+
+A* chooses:
+
+A
+
+because:
+
+f(A) = 5
+f(B) = 9
+
+
+Expand A.
+
+Then G:
+
+g(G) = 2 + 3 = 5
+
+h(G) = 0
+
+f(G) = 5
+
+
+Goal is selected.
+
+Optimal path:
+
+S → A → G
+
+Total cost:
+
+2 + 3 = 5
+
+
+============================================================
+22. STEP-BY-STEP A* SIMULATION
+============================================================
+
+General format:
+
+Step 1:
+
+OPEN = {Start}
+
+CLOSED = { }
+
+
+Step 2:
+
+Select node with minimum f(n).
+
+
+Step 3:
+
+Move selected node to CLOSED.
+
+
+Step 4:
+
+Generate its neighbors.
+
+
+Step 5:
+
+Calculate:
+
+g(n)
+h(n)
+f(n)
+
+
+Step 6:
+
+Add/update neighbors in OPEN.
+
+
+Step 7:
+
+Again select minimum f(n).
+
+
+Step 8:
+
+Repeat until goal is selected.
+
+
+============================================================
+23. IMPORTANT A* RULE
+============================================================
+
+When multiple nodes are available:
+
+Choose the node with the smallest f(n).
+
+Remember:
+
+f(n) = g(n) + h(n)
+
+
+============================================================
+24. TIE IN A*
+============================================================
+
+Sometimes two or more nodes have the same f(n).
+
+Example:
+
+f(A) = 10
+f(B) = 10
+
+There is a tie.
+
+A tie-breaking rule may be used.
+
+Possible choices:
+
+- Smaller h(n)
+- Larger g(n)
+- Earlier generated node
+- Any specified rule in the question
+
+IMPORTANT:
+
+If the exam specifies a tie-breaking rule,
+follow that rule.
+
+If no rule is specified, clearly state your chosen
+tie-breaking rule.
+
+
+============================================================
+25. A* AND UNIFORM COST SEARCH
+============================================================
+
+Uniform Cost Search uses:
+
+f(n) = g(n)
+
+A* uses:
+
+f(n) = g(n) + h(n)
+
+
+Therefore:
+
+UCS ignores heuristic information.
+
+A* uses heuristic information.
+
+
+============================================================
+26. A* AND GREEDY BEST-FIRST SEARCH
+============================================================
+
+Greedy Best-First Search uses:
+
+f(n) = h(n)
+
+A* uses:
+
+f(n) = g(n) + h(n)
+
+
+Greedy:
+
+Only considers estimated distance to goal.
+
+A*:
+
+Considers both actual cost and estimated remaining cost.
+
+
+============================================================
+27. BFS VS UCS VS GREEDY VS A*
+============================================================
+
+BFS:
+
+Priority based mainly on depth.
+
+UCS:
+
+f(n) = g(n)
+
+Greedy Best-First:
+
+f(n) = h(n)
+
+A*:
+
+f(n) = g(n) + h(n)
+
+
+Easy memory trick:
+
+BFS = Depth
+
+UCS = Past Cost
+
+Greedy = Future Estimate
+
+A* = Past Cost + Future Estimate
+
+
+============================================================
+28. A* VS GREEDY BEST-FIRST SEARCH
+============================================================
+
+Greedy:
+
+f(n) = h(n)
+
+It may choose a node that appears close to the goal even if
+the path taken so far is very expensive.
+
+A*:
+
+f(n) = g(n) + h(n)
+
+It considers both the cost already spent and the estimated
+remaining cost.
+
+Therefore, A* generally makes a more balanced decision.
+
+
+============================================================
+29. A* VS UCS
+============================================================
+
+UCS:
+
+f(n) = g(n)
+
+A*:
+
+f(n) = g(n) + h(n)
+
+
+If:
+
+h(n) = 0
+
+Then:
+
+f(n) = g(n)
+
+Therefore:
+
+A* becomes equivalent to Uniform Cost Search.
+
+
+============================================================
+30. PERFECT HEURISTIC
+============================================================
+
+A perfect heuristic gives the exact remaining cost:
+
+h(n) = h*(n)
+
+Then:
+
+f(n) = g(n) + h*(n)
+
+This gives exact information about the total cost through n.
+
+
+============================================================
+31. EFFECT OF h(n)
+============================================================
+
+If h(n) is:
+
+1. Zero:
+A* behaves like UCS.
+
+2. Admissible but weak:
+A* remains optimal but may explore many nodes.
+
+3. Admissible and strong:
+A* usually explores fewer unnecessary nodes.
+
+4. Perfect:
+A* has exact remaining-cost information.
+
+5. Overestimating:
+A* may lose optimality.
+
+
+============================================================
+32. HEURISTIC QUALITY
+============================================================
+
+A heuristic is generally considered better when it provides
+more useful information while remaining admissible.
+
+For two admissible heuristics h1 and h2:
+
+If:
+
+h1(n) <= h2(n) <= h*(n)
+
+then h2 is usually considered more informed than h1.
+
+
+============================================================
+33. DOMINANCE BETWEEN HEURISTICS
+============================================================
+
+If two heuristics are admissible and:
+
+h2(n) >= h1(n)
+
+for every node n,
+
+then h2 dominates h1.
+
+A dominating admissible heuristic is generally more informed
+and can reduce unnecessary node expansions.
+
+
+============================================================
+34. COMMON HEURISTICS
+============================================================
+
+Different problems require different heuristics.
+
+Examples:
+
+1. Manhattan Distance
+2. Euclidean / Straight-Line Distance
+3. Chebyshev Distance
+4. Hamming Distance
+
+
+============================================================
+35. MANHATTAN DISTANCE
+============================================================
+
+Manhattan Distance is commonly used when movement is restricted
+to four directions:
+
+Up
+Down
+Left
+Right
+
+
+Formula:
+
+Manhattan Distance =
+|x1 - x2| + |y1 - y2|
+
+
+Example:
+
+Current = (2,3)
+Goal = (5,7)
+
+Distance:
+
+|2 - 5| + |3 - 7|
+
+= 3 + 4
+
+= 7
+
+
+============================================================
+36. EUCLIDEAN DISTANCE
+============================================================
+
+Euclidean distance represents straight-line distance.
+
+Formula:
+
+d = sqrt((x1-x2)^2 + (y1-y2)^2)
+
+
+Example:
+
+Current = (1,1)
+Goal = (4,5)
+
+d = sqrt((1-4)^2 + (1-5)^2)
+
+d = sqrt(9 + 16)
+
+d = sqrt(25)
+
+d = 5
+
+
+============================================================
+37. CHEBYSHEV DISTANCE
+============================================================
+
+Chebyshev distance is commonly used when diagonal movement
+is allowed with the same cost as horizontal/vertical movement.
+
+Formula:
+
+d = max(|x1-x2|, |y1-y2|)
+
+
+Example:
+
+Current = (2,3)
+Goal = (5,7)
+
+d = max(3,4)
+
+d = 4
+
+
+============================================================
+38. HAMMING DISTANCE
+============================================================
+
+Hamming distance measures the number of positions where two
+states differ.
+
+Example:
+
+State 1:
+
+1 2 3 4
+
+State 2:
+
+1 3 2 4
+
+Differences:
+
+Position 2
+Position 3
+
+Therefore:
+
+Hamming Distance = 2
+
+
+============================================================
+39. HEURISTIC SELECTION
+============================================================
+
+The heuristic depends on the problem.
+
+Grid with only up/down/left/right:
+
+Use Manhattan Distance.
+
+Grid where diagonal movement is allowed:
+
+Chebyshev or another suitable diagonal-distance heuristic
+may be used depending on movement costs.
+
+Physical map:
+
+Straight-line/Euclidean distance can be useful.
+
+
+============================================================
+40. WHY STRAIGHT-LINE DISTANCE CAN BE ADMISSIBLE
+============================================================
+
+Suppose a road network is used.
+
+Straight-line distance represents the direct geometric distance.
+
+A real road route normally cannot be shorter than the direct
+straight-line distance between two locations.
+
+Therefore:
+
+Straight-line distance can be used as an admissible heuristic
+for many road-routing problems.
+
+
+============================================================
+41. HEURISTIC OVERESTIMATION
+============================================================
+
+Suppose:
+
+True remaining cost = 10
+
+Heuristic = 15
+
+Since:
+
+15 > 10
+
+The heuristic overestimates the actual cost.
+
+Therefore:
+
+It is NOT admissible.
+
+An overestimating heuristic can cause A* to return a
+non-optimal solution.
+
+
+============================================================
+42. COMPLETE A* SIMULATION QUESTION
+============================================================
+
+Given:
+
+        2
+    S ------ A
+    |        |
+   4|        |5
+    |        |
+    B ------ G
+        3
+
+Heuristics:
+
+h(S) = 5
+h(A) = 5
+h(B) = 3
+h(G) = 0
+
+
+Edges:
+
+S-A = 2
+S-B = 4
+A-G = 5
+B-G = 3
+
+
+Step 1:
+
+Start:
+
+S
+
+g(S) = 0
+h(S) = 5
+f(S) = 5
+
+
+Expand S.
+
+
+Generate A:
+
+g(A) = 2
+h(A) = 5
+f(A) = 7
+
+
+Generate B:
+
+g(B) = 4
+h(B) = 3
+f(B) = 7
+
+
+Now:
+
+OPEN:
+
+A: f=7
+B: f=7
+
+
+There is a tie.
+
+Suppose we choose A first.
+
+
+Expand A.
+
+Generate G:
+
+g(G) = 2 + 5
+g(G) = 7
+
+h(G) = 0
+
+f(G) = 7
+
+
+OPEN:
+
+B: f=7
+G: f=7
+
+
+If tie-breaking chooses B first:
+
+Expand B.
+
+Generate G:
+
+New path cost:
+
+g(G) = 4 + 3
+g(G) = 7
+
+Same cost.
+
+Then G is selected.
+
+
+Optimal Path:
+
+S → A → G
+
+or
+
+S → B → G
+
+Both have cost:
+
+7
+
+
+============================================================
+43. ANOTHER A* SIMULATION
+============================================================
+
+Given:
+
+S → A = 1
+S → B = 4
+A → C = 2
+B → C = 1
+C → G = 5
+
+Heuristics:
+
+h(S) = 5
+h(A) = 5
+h(B) = 3
+h(C) = 5
+h(G) = 0
+
+
+Start:
+
+S
+
+g(S)=0
+h(S)=5
+f(S)=5
+
+
+Expand S.
+
+A:
+
+g(A)=1
+h(A)=5
+f(A)=6
+
+
+B:
+
+g(B)=4
+h(B)=3
+f(B)=7
+
+
+Choose A because:
+
+6 < 7
+
+
+Expand A.
+
+C:
+
+g(C)=1+2=3
+h(C)=5
+f(C)=8
+
+
+OPEN:
+
+B = 7
+C = 8
+
+
+Choose B.
+
+
+Expand B.
+
+New path to C:
+
+g(C)=4+1=5
+
+Existing g(C)=3
+
+Since:
+
+3 < 5
+
+Keep the better path:
+
+g(C)=3
+
+
+Then:
+
+f(C)=3+5=8
+
+
+Expand C.
+
+Generate G:
+
+g(G)=3+5=8
+h(G)=0
+f(G)=8
+
+
+Goal selected.
+
+Optimal path:
+
+S → A → C → G
+
+Total cost:
+
+1 + 2 + 5 = 8
+
+
+============================================================
+44. IMPORTANT PATH UPDATE RULE
+============================================================
+
+Suppose a node is already in OPEN.
+
+Then a better path to that same node is discovered.
+
+Example:
+
+Existing:
+
+g(C) = 10
+
+New:
+
+g(C) = 7
+
+Since:
+
+7 < 10
+
+Update:
+
+g(C) = 7
+
+Then recalculate:
+
+f(C) = g(C) + h(C)
+
+
+IMPORTANT:
+
+A* should keep the lower-cost path.
+
+
+============================================================
+45. WHAT IF A NODE IS REACHED THROUGH TWO PATHS?
+============================================================
+
+Example:
+
+Path 1:
+
+S → A → C
+
+Cost = 10
+
+
+Path 2:
+
+S → B → C
+
+Cost = 7
+
+
+Choose:
+
+Path 2
+
+because:
+
+g(C) = 7 < 10
+
+
+============================================================
+46. A* AND PATH COST
+============================================================
+
+A* does NOT choose a node simply because its g(n) is smallest.
+
+It chooses according to:
+
+f(n) = g(n) + h(n)
+
+
+Example:
+
+Node A:
+
+g(A)=2
+h(A)=10
+f(A)=12
+
+
+Node B:
+
+g(B)=5
+h(B)=2
+f(B)=7
+
+
+A* chooses B.
+
+Even though:
+
+g(A) < g(B)
+
+because:
+
+f(B) < f(A)
+
+
+============================================================
+47. A* AND HEURISTIC
+============================================================
+
+A* does NOT choose only the smallest h(n).
+
+Example:
+
+A:
+
+g(A)=100
+h(A)=1
+
+f(A)=101
+
+
+B:
+
+g(B)=5
+h(B)=10
+
+f(B)=15
+
+
+A* chooses B.
+
+Because:
+
+15 < 101
+
+
+============================================================
+48. OPTIMALITY OF A*
+============================================================
+
+A* can guarantee an optimal solution when its heuristic
+satisfies the required conditions.
+
+For A* tree search:
+
+Admissible heuristic is sufficient under standard conditions.
+
+For graph search:
+
+Consistency is the standard stronger condition that ensures
+the required optimality behavior without problematic reopening
+of already-expanded nodes.
+
+
+============================================================
+49. COMPLETENESS OF A*
+============================================================
+
+Completeness means:
+
+If a solution exists, the algorithm will eventually find one,
+under the usual assumptions such as finite branching and
+suitable positive/non-zero step costs.
+
+For finite graphs with non-negative edge weights, A* terminates
+and is complete.
+
+
+============================================================
+50. OPTIMALITY VS COMPLETENESS
+============================================================
+
+Completeness:
+
+Will the algorithm find a solution if one exists?
+
+
+Optimality:
+
+Will the algorithm find the best/least-cost solution?
+
+
+IMPORTANT:
+
+These are different concepts.
+
+
+============================================================
+51. A* TIME COMPLEXITY
+============================================================
+
+A* can have exponential worst-case time complexity.
+
+Its practical performance depends heavily on:
+
+- Heuristic quality
+- Branching factor
+- Search depth
+- Number of states
+- Edge costs
+- Problem structure
+
+
+============================================================
+52. A* SPACE COMPLEXITY
+============================================================
+
+A* can require large amounts of memory because it stores
+many generated nodes in OPEN and often CLOSED.
+
+Therefore, A* can be memory-intensive.
+
+
+============================================================
+53. WHY A* CAN BE SLOW
+============================================================
+
+A* may explore many nodes when:
+
+- The heuristic is weak.
+- The heuristic is close to zero.
+- The search space is huge.
+- Many nodes have similar f values.
+- The heuristic provides little useful direction.
+
+
+============================================================
+54. WHY A* IS BETTER THAN UCS IN MANY CASES
+============================================================
+
+UCS only considers:
+
+g(n)
+
+A* considers:
+
+g(n) + h(n)
+
+Therefore, A* can use knowledge about where the goal is
+to guide the search.
+
+This can reduce unnecessary exploration.
+
+
+============================================================
+55. WHY A* IS BETTER THAN GREEDY IN TERMS OF COST
+============================================================
+
+Greedy uses:
+
+h(n)
+
+It ignores the cost already spent.
+
+A* uses:
+
+g(n) + h(n)
+
+Therefore, A* balances:
+
+Cost already spent
++
+Estimated remaining cost
+
+
+============================================================
+56. SPECIAL CASES
+============================================================
+
+If:
+
+h(n) = 0
+
+Then:
+
+f(n) = g(n)
+
+Therefore:
+
+A* = Uniform Cost Search
+
+
+If:
+
+g(n) is ignored
+
+Then:
+
+f(n) = h(n)
+
+This becomes:
+
+Greedy Best-First Search
+
+
+============================================================
+57. IMPORTANT A* TERMINOLOGY
+============================================================
+
+Start Node:
+
+Initial state of the problem.
+
+
+Goal Node:
+
+Desired final state.
+
+
+Successor:
+
+A node reachable from the current node.
+
+
+Edge Cost:
+
+Cost of moving from one node to another.
+
+
+Path Cost:
+
+Total cost of all edges along a path.
+
+
+Heuristic:
+
+Estimated remaining cost to the goal.
+
+
+OPEN:
+
+Nodes waiting to be expanded.
+
+
+CLOSED:
+
+Nodes already expanded.
+
+
+Evaluation Function:
+
+f(n) = g(n) + h(n)
+
+
+============================================================
+58. COMMON MISTAKES IN A* SIMULATION
+============================================================
+
+Mistake 1:
+
+Using only h(n).
+
+Wrong.
+
+A* uses:
+
+f(n) = g(n) + h(n)
+
+
+Mistake 2:
+
+Using only g(n).
+
+That is UCS.
+
+Mistake 3:
+
+Forgetting to update g(n) when a cheaper path is found.
+
+
+Mistake 4:
+
+Choosing the goal immediately when it is generated without
+checking the remaining OPEN nodes in standard A*.
+
+
+Mistake 5:
+
+Incorrectly calculating cumulative g(n).
+
+
+Mistake 6:
+
+Using the wrong heuristic.
+
+
+Mistake 7:
+
+Ignoring the tie-breaking rule.
+
+
+Mistake 8:
+
+Confusing admissible and consistent.
+
+
+============================================================
+59. A* CALCULATION TEMPLATE FOR EXAM
+============================================================
+
+For every generated node, write:
+
+Node:
+
+g(n) = ?
+
+h(n) = ?
+
+f(n) = g(n) + h(n)
+
+Then compare f values.
+
+
+Example:
+
+A:
+
+g(A) = 4
+h(A) = 6
+f(A) = 10
+
+
+B:
+
+g(B) = 7
+h(B) = 2
+f(B) = 9
+
+
+Choose:
+
+B
+
+because:
+
+9 < 10
+
+
+============================================================
+60. EXAM SIMULATION TABLE FORMAT
+============================================================
+
+Use this format:
+
+Step | Expanded | OPEN | CLOSED | Selected
+
+Example:
+
+Step 1:
+Expanded = S
+
+OPEN:
+A(6), B(8)
+
+CLOSED:
+S
+
+Selected:
+A
+
+
+This makes your simulation easy to follow and reduces mistakes.
+
+
+============================================================
+61. SIMULATION-BASED QUESTIONS
+============================================================
+
+
+QUESTION 1:
+
+Given:
+
+g(A) = 5
+h(A) = 7
+
+Find f(A).
+
+ANSWER:
+
+f(A) = g(A) + h(A)
+
+f(A) = 5 + 7
+
+f(A) = 12
+
+
+------------------------------------------------------------
+
+QUESTION 2:
+
+Given:
+
+Node A:
+g=4, h=8
+
+Node B:
+g=6, h=3
+
+Which node does A* select?
+
+ANSWER:
+
+A:
+
+f=4+8=12
+
+B:
+
+f=6+3=9
+
+A* selects B.
+
+Reason:
+
+f(B) < f(A)
+
+
+------------------------------------------------------------
+
+QUESTION 3:
+
+Given:
+
+Node A:
+g=2, h=10
+
+Node B:
+g=7, h=3
+
+Which node is selected?
+
+ANSWER:
+
+A:
+
+f=2+10=12
+
+B:
+
+f=7+3=10
+
+Select B.
+
+
+------------------------------------------------------------
+
+QUESTION 4:
+
+True cost to goal = 15
+
+Heuristic = 10
+
+Is the heuristic admissible?
+
+ANSWER:
+
+Yes.
+
+Because:
+
+10 <= 15
+
+
+------------------------------------------------------------
+
+QUESTION 5:
+
+True cost to goal = 15
+
+Heuristic = 18
+
+Is the heuristic admissible?
+
+ANSWER:
+
+No.
+
+Because:
+
+18 > 15
+
+The heuristic overestimates the true cost.
+
+
+------------------------------------------------------------
+
+QUESTION 6:
+
+Given:
+
+h(A)=8
+A→B cost=3
+h(B)=5
+
+Check consistency.
+
+ANSWER:
+
+Condition:
+
+h(A) <= cost(A,B) + h(B)
+
+8 <= 3 + 5
+
+8 <= 8
+
+TRUE
+
+Therefore:
+
+Heuristic is consistent for this edge.
+
+
+------------------------------------------------------------
+
+QUESTION 7:
+
+Given:
+
+h(A)=10
+A→B cost=3
+h(B)=5
+
+Check consistency.
+
+ANSWER:
+
+10 <= 3 + 5
+
+10 <= 8
+
+FALSE
+
+Therefore:
+
+Heuristic is inconsistent.
+
+
+------------------------------------------------------------
+
+QUESTION 8:
+
+Given:
+
+h(n)=0 for every node.
+
+What does A* become?
+
+ANSWER:
+
+f(n)=g(n)+0
+
+f(n)=g(n)
+
+Therefore:
+
+A* becomes Uniform Cost Search.
+
+
+------------------------------------------------------------
+
+QUESTION 9:
+
+A node has:
+
+g=12
+h=8
+
+Another node has:
+
+g=5
+h=10
+
+Which one does A* choose?
+
+ANSWER:
+
+First node:
+
+f=12+8=20
+
+Second node:
+
+f=5+10=15
+
+Choose the second node.
+
+
+------------------------------------------------------------
+
+QUESTION 10:
+
+Given:
+
+Start → A = 3
+A → Goal = 5
+
+Find the total path cost.
+
+ANSWER:
+
+3 + 5 = 8
+
+
+------------------------------------------------------------
+
+QUESTION 11:
+
+Given:
+
+Start → A = 2
+A → B = 4
+B → Goal = 3
+
+Find g(B).
+
+ANSWER:
+
+g(B)=2+4
+
+g(B)=6
+
+
+------------------------------------------------------------
+
+QUESTION 12:
+
+Given:
+
+g(B)=6
+h(B)=4
+
+Find f(B).
+
+ANSWER:
+
+f(B)=6+4
+
+f(B)=10
+
+
+------------------------------------------------------------
+
+QUESTION 13:
+
+Two paths reach C:
+
+Path 1 cost = 12
+Path 2 cost = 8
+
+Which path should A* keep?
+
+ANSWER:
+
+Keep Path 2.
+
+Because:
+
+8 < 12
+
+
+------------------------------------------------------------
+
+QUESTION 14:
+
+Given:
+
+Current coordinate = (2,3)
+Goal coordinate = (5,7)
+
+Calculate Manhattan Distance.
+
+ANSWER:
+
+|2-5| + |3-7|
+
+= 3 + 4
+
+= 7
+
+
+------------------------------------------------------------
+
+QUESTION 15:
+
+Given:
+
+Current = (1,1)
+Goal = (4,5)
+
+Calculate Euclidean Distance.
+
+ANSWER:
+
+sqrt((1-4)^2 + (1-5)^2)
+
+= sqrt(9+16)
+
+= sqrt(25)
+
+= 5
+
+
+------------------------------------------------------------
+
+QUESTION 16:
+
+Given:
+
+Current = (2,3)
+Goal = (5,7)
+
+Calculate Chebyshev Distance.
+
+ANSWER:
+
+max(|2-5|, |3-7|)
+
+= max(3,4)
+
+= 4
+
+
+------------------------------------------------------------
+
+QUESTION 17:
+
+State:
+
+1 2 3 4
+
+Goal:
+
+1 3 2 4
+
+Calculate Hamming Distance.
+
+ANSWER:
+
+Two positions are different.
+
+Hamming Distance = 2
+
+
+------------------------------------------------------------
+
+QUESTION 18:
+
+Given:
+
+A:
+g=3
+h=7
+
+B:
+g=6
+h=2
+
+C:
+g=5
+h=5
+
+Which node does A* select?
+
+ANSWER:
+
+A:
+
+f=3+7=10
+
+B:
+
+f=6+2=8
+
+C:
+
+f=5+5=10
+
+Minimum:
+
+B = 8
+
+Therefore:
+
+Select B.
+
+
+------------------------------------------------------------
+
+QUESTION 19:
+
+Suppose:
+
+A:
+g=4
+h=6
+
+B:
+g=2
+h=8
+
+Which node is selected?
+
+ANSWER:
+
+A:
+
+f=10
+
+B:
+
+f=10
+
+Tie.
+
+A tie-breaking rule is required.
+
+If no rule is specified, any valid tie-breaking rule may be used,
+but state the rule clearly.
+
+
+------------------------------------------------------------
+
+QUESTION 20:
+
+A* has:
+
+OPEN:
+A(f=9)
+B(f=5)
+C(f=7)
+
+Which node should be expanded?
+
+ANSWER:
+
+B
+
+Because:
+
+f(B)=5
+
+is the smallest.
+
+
+------------------------------------------------------------
+
+QUESTION 21:
+
+Suppose the current node is S.
+
+Neighbors:
+
+A:
+g=3
+h=7
+
+B:
+g=5
+h=2
+
+C:
+g=2
+h=10
+
+Which is selected?
+
+ANSWER:
+
+A:
+
+f=3+7=10
+
+B:
+
+f=5+2=7
+
+C:
+
+f=2+10=12
+
+Select:
+
+B
+
+
+------------------------------------------------------------
+
+QUESTION 22:
+
+A* has found a goal node with cost 15.
+
+Another OPEN node has:
+
+f=12
+
+Should the algorithm necessarily stop immediately?
+
+ANSWER:
+
+No.
+
+For standard A* graph/tree search, the goal should be selected
+for expansion/removal from OPEN under the usual optimality
+conditions. If another OPEN node has a lower f value, it may
+still lead to a better solution.
+
+
+------------------------------------------------------------
+
+QUESTION 23:
+
+A heuristic gives:
+
+h(n)=20
+
+Actual remaining cost:
+
+h*(n)=15
+
+Is it admissible?
+
+ANSWER:
+
+No.
+
+Because:
+
+20 > 15
+
+It overestimates.
+
+
+------------------------------------------------------------
+
+QUESTION 24:
+
+A heuristic gives:
+
+h(n)=12
+
+Actual remaining cost:
+
+h*(n)=15
+
+Is it admissible?
+
+ANSWER:
+
+Yes.
+
+Because:
+
+12 <= 15
+
+
+------------------------------------------------------------
+
+QUESTION 25:
+
+Which algorithm uses:
+
+f(n)=g(n)+h(n)?
+
+ANSWER:
+
+A* Search.
+
+
+============================================================
+62. COMPLETE GRAPH SIMULATION QUESTION
+============================================================
+
+
+QUESTION:
+
+Consider the following graph:
+
+S → A = 2
+S → B = 5
+A → C = 2
+A → D = 6
+B → D = 1
+C → G = 5
+D → G = 3
+
+Heuristic values:
+
+h(S)=7
+h(A)=6
+h(B)=4
+h(C)=5
+h(D)=3
+h(G)=0
+
+
+Solve using A* Search.
+
+
+SOLUTION:
+
+START:
+
+S
+
+g(S)=0
+h(S)=7
+f(S)=7
+
+
+Expand S.
+
+A:
+
+g(A)=2
+h(A)=6
+
+f(A)=2+6=8
+
+
+B:
+
+g(B)=5
+h(B)=4
+
+f(B)=5+4=9
+
+
+OPEN:
+
+A(8)
+B(9)
+
+CLOSED:
+
+S
+
+
+Select A.
+
+Because:
+
+8 < 9
+
+
+Expand A.
+
+C:
+
+g(C)=2+2=4
+h(C)=5
+f(C)=9
+
+
+D:
+
+g(D)=2+6=8
+h(D)=3
+f(D)=11
+
+
+OPEN:
+
+B(9)
+C(9)
+D(11)
+
+CLOSED:
+
+S,A
+
+
+Suppose B is selected due to tie-breaking.
+
+
+Expand B.
+
+D can be reached from B:
+
+g(D)=5+1=6
+
+Previously:
+
+g(D)=8
+
+Since:
+
+6 < 8
+
+Update D:
+
+g(D)=6
+
+f(D)=6+3=9
+
+
+OPEN:
+
+C(9)
+D(9)
+
+CLOSED:
+
+S,A,B
+
+
+Suppose C is selected.
+
+Expand C.
+
+G:
+
+g(G)=4+5=9
+h(G)=0
+f(G)=9
+
+
+OPEN:
+
+D(9)
+G(9)
+
+
+If D is selected first:
+
+Expand D.
+
+G through D:
+
+g(G)=6+3=9
+
+Same as existing:
+
+g(G)=9
+
+No improvement.
+
+
+Then G is selected.
+
+Final solution:
+
+S → B → D → G
+
+
+Total cost:
+
+S→B = 5
+B→D = 1
+D→G = 3
+
+Total:
+
+5 + 1 + 3 = 9
+
+
+Therefore:
+
+Optimal Path = S → B → D → G
+
+Optimal Cost = 9
+
+
+============================================================
+63. IMPORTANT SIMULATION QUESTION TYPE
+============================================================
+
+Faculty may provide:
+
+- A graph
+- Edge costs
+- Heuristic values
+- Start node
+- Goal node
+
+Then ask:
+
+"Perform A* search and find the optimal path."
+
+
+You should create a table:
+
+Node | g(n) | h(n) | f(n)
+
+Then maintain:
+
+OPEN
+CLOSED
+
+
+Always:
+
+1. Calculate g
+2. Read/identify h
+3. Calculate f
+4. Choose smallest f
+5. Expand
+6. Update cheaper paths
+7. Continue
+8. Stop when goal is selected
+
+
+============================================================
+64. SHORT CONCEPTUAL QUESTIONS
+============================================================
+
+
+Q1. What is A* Search?
+
+A* is an informed search algorithm that finds a minimum-cost
+path by using both actual path cost and estimated remaining cost.
+
+
+Q2. Why is A* called an informed search?
+
+Because it uses heuristic information to guide the search toward
+the goal.
+
+
+Q3. What is the evaluation function of A*?
+
+f(n)=g(n)+h(n)
+
+
+Q4. What is g(n)?
+
+g(n) is the actual cost from the start node to node n.
+
+
+Q5. What is h(n)?
+
+h(n) is the estimated cost from node n to the goal.
+
+
+Q6. What is f(n)?
+
+f(n) is the estimated total cost of a solution through node n.
+
+f(n)=g(n)+h(n)
+
+
+Q7. What is a heuristic?
+
+A heuristic is an estimate of the cost from a current node to
+a goal node.
+
+
+Q8. What is an admissible heuristic?
+
+An admissible heuristic never overestimates the true minimum
+remaining cost.
+
+h(n) <= h*(n)
+
+
+Q9. What is a consistent heuristic?
+
+A heuristic is consistent if:
+
+h(n) <= c(n,n') + h(n')
+
+for every edge from n to n'.
+
+
+Q10. What is the difference between admissible and consistent?
+
+Admissibility means the heuristic never overestimates the true
+remaining cost.
+
+Consistency additionally requires the triangle inequality across
+every edge.
+
+Consistency is stronger than admissibility.
+
+
+Q11. Is every consistent heuristic admissible?
+
+Yes.
+
+
+Q12. Is every admissible heuristic consistent?
+
+No.
+
+
+Q13. What is the OPEN list?
+
+The OPEN list contains generated nodes that are waiting to be
+expanded.
+
+
+Q14. What is the CLOSED list?
+
+The CLOSED list contains nodes that have already been expanded.
+
+
+Q15. What is node expansion?
+
+Node expansion means generating the successors/neighbors of a
+selected node.
+
+
+Q16. Which node does A* select?
+
+A* normally selects the node with the smallest f(n).
+
+
+Q17. What happens when h(n)=0?
+
+A* becomes equivalent to Uniform Cost Search.
+
+
+Q18. What function does UCS use?
+
+UCS uses:
+
+f(n)=g(n)
+
+
+Q19. What function does Greedy Best-First Search use?
+
+Greedy Best-First Search uses:
+
+f(n)=h(n)
+
+
+Q20. What function does A* use?
+
+A* uses:
+
+f(n)=g(n)+h(n)
+
+
+Q21. What is a perfect heuristic?
+
+A perfect heuristic gives the exact remaining cost:
+
+h(n)=h*(n)
+
+
+Q22. What happens if a heuristic overestimates?
+
+The heuristic is not admissible, and A* may return a
+non-optimal solution.
+
+
+Q23. What is Manhattan Distance?
+
+Manhattan Distance is the sum of the absolute differences
+between coordinates.
+
+Formula:
+
+|x1-x2| + |y1-y2|
+
+
+Q24. When is Manhattan Distance commonly used?
+
+It is commonly used for grid problems where movement is limited
+to four directions.
+
+
+Q25. What is Euclidean Distance?
+
+Euclidean Distance is the straight-line distance between two
+points.
+
+Formula:
+
+sqrt((x1-x2)^2 + (y1-y2)^2)
+
+
+Q26. What is Chebyshev Distance?
+
+Chebyshev Distance is:
+
+max(|x1-x2|, |y1-y2|)
+
+It is commonly useful for grids where diagonal movement is
+allowed with equal cost.
+
+
+Q27. What is Hamming Distance?
+
+Hamming Distance counts the number of positions at which two
+states differ.
+
+
+Q28. What is completeness?
+
+Completeness means an algorithm will find a solution if one
+exists under the required assumptions.
+
+
+Q29. What is optimality?
+
+Optimality means the algorithm returns the best or least-cost
+solution.
+
+
+Q30. Why is A* memory intensive?
+
+Because A* stores generated nodes in structures such as OPEN
+and CLOSED.
+
+
+Q31. What is the main advantage of A*?
+
+It combines actual path cost with heuristic information to
+guide the search efficiently toward the goal.
+
+
+Q32. What is the main disadvantage of A*?
+
+It can require large amounts of time and memory for large
+search spaces.
+
+
+Q33. Why is heuristic quality important?
+
+A good heuristic can guide A* toward promising nodes and reduce
+unnecessary exploration.
+
+
+Q34. What is heuristic dominance?
+
+If two admissible heuristics satisfy:
+
+h2(n) >= h1(n)
+
+for every node, then h2 is said to dominate h1.
+
+
+Q35. What happens if h(n)=h*(n)?
+
+The heuristic is perfect because it exactly estimates the
+remaining optimal cost.
+
+
+============================================================
+65. VERY IMPORTANT COMPARISON QUESTIONS
+============================================================
+
+
+QUESTION:
+
+Compare BFS, UCS, Greedy Best-First Search, and A*.
+
+
+ANSWER:
+
+BFS:
+
+Uses depth/level information.
+
+
+UCS:
+
+Uses:
+
+f(n)=g(n)
+
+
+Greedy Best-First:
+
+Uses:
+
+f(n)=h(n)
+
+
+A*:
+
+Uses:
+
+f(n)=g(n)+h(n)
+
+
+Memory Trick:
+
+BFS = Depth
+
+UCS = Cost Already Paid
+
+Greedy = Estimated Future
+
+A* = Cost Already Paid + Estimated Future
+
+
+============================================================
+66. A* VS UCS
+============================================================
+
+UCS:
+
+f(n)=g(n)
+
+A*:
+
+f(n)=g(n)+h(n)
+
+UCS does not use heuristic information.
+
+A* uses heuristic information.
+
+If h(n)=0:
+
+A*=UCS
+
+
+============================================================
+67. A* VS GREEDY
+============================================================
+
+Greedy:
+
+f(n)=h(n)
+
+A*:
+
+f(n)=g(n)+h(n)
+
+Greedy ignores the cost already spent.
+
+A* considers both past and future cost.
+
+
+============================================================
+68. ADMISSIBLE VS INADMISSIBLE EXAMPLES
+============================================================
+
+Actual cost = 20
+
+h = 15
+
+Admissible = YES
+
+
+Actual cost = 20
+
+h = 20
+
+Admissible = YES
+
+Because equal is allowed.
+
+
+Actual cost = 20
+
+h = 25
+
+Admissible = NO
+
+
+IMPORTANT:
+
+Admissible means:
+
+h(n) <= actual optimal remaining cost
+
+NOT:
+
+h(n) < actual cost
+
+Equality is allowed.
+
+
+============================================================
+69. CONSISTENCY EXAM SHORTCUT
+============================================================
+
+To test whether h is consistent:
+
+For every edge:
+
+h(current) <= edge cost + h(next)
+
+
+Example:
+
+h(A)=7
+cost A→B=2
+h(B)=5
+
+Check:
+
+7 <= 2+5
+
+7 <= 7
+
+TRUE
+
+Consistent.
+
+
+Example:
+
+h(A)=8
+cost A→B=2
+h(B)=5
+
+8 <= 2+5
+
+8 <= 7
+
+FALSE
+
+Not consistent.
+
+ 
+============================================================
+72. EXAM ANSWER TEMPLATE FOR A* SIMULATION
+============================================================
+
+When the faculty gives you a graph, follow this exact process:
+
+STEP 1:
+
+Write:
+
+f(n)=g(n)+h(n)
+
+
+STEP 2:
+
+Set:
+
+g(Start)=0
+
+
+STEP 3:
+
+Calculate f(Start).
+
+
+STEP 4:
+
+Expand the current node.
+
+
+STEP 5:
+
+For every neighbor calculate:
+
+g(n)
+h(n)
+f(n)
+
+
+STEP 6:
+
+Put generated nodes in OPEN.
+
+
+STEP 7:
+
+Move expanded node to CLOSED.
+
+
+STEP 8:
+
+Select the node with the minimum f(n).
+
+
+STEP 9:
+
+If a cheaper path to an existing node is found:
+
+Update g(n) and f(n).
+
+
+STEP 10:
+
+Continue until the goal is selected.
+
+
+STEP 11:
+
+Trace the parent/predecessor nodes backward to obtain
+the final path.
+
+
+STEP 12:
+
+Calculate total path cost.
+
+
+============================================================
+73. A* QUICK REVISION SHEET
+============================================================
+
+A*:
+
+f(n)=g(n)+h(n)
+
+
+g(n):
+
+Cost from START → current node
+
+
+h(n):
+
+Estimated cost from current node → GOAL
+
+
+f(n):
+
+Estimated total cost
+
+
+Admissible:
+
+Never overestimates
+
+
+Consistent:
+
+h(n) <= c(n,n') + h(n')
+
+
+Goal:
+
+h(goal)=0
+
+
+OPEN:
+
+Waiting to expand
+
+
+CLOSED:
+
+Already expanded
+
+
+UCS:
+
+f(n)=g(n)
+
+
+Greedy:
+
+f(n)=h(n)
+
+
+A*:
+
+f(n)=g(n)+h(n)
+
+
+If h=0:
+
+A*=UCS
+
+
+Manhattan:
+
+|x1-x2| + |y1-y2|
+
+
+Euclidean:
+
+sqrt((x1-x2)^2 + (y1-y2)^2)
+
+
+Chebyshev:
+
+max(|x1-x2|, |y1-y2|)
+
+
+Hamming:
+
+Number of different positions
+
+
+Optimality:
+
+Finds least-cost solution
+
+
+Completeness:
+
+Finds a solution if one exists under required assumptions
+
+============================================================
+75. FINAL MEMORY TRICK
+============================================================
+
+Remember this:
+
+A* = PAST + FUTURE
+
+
+PAST:
+
+g(n)
+
+Actual cost already spent.
+
+
+FUTURE:
+
+h(n)
+
+Estimated cost remaining.
+
+
+TOTAL:
+
+f(n)=g(n)+h(n)
+
+
+Then remember:
+
+UCS = g
+
+Greedy = h
+
+A* = g+h
+
+
+Heuristic:
+
+Estimate the future.
+
+
+Admissible:
+
+Never overestimate.
+
+
+Consistent:
+
+Follow the triangle inequality.
+
+
+OPEN:
+
+Waiting.
+
+
+CLOSED:
+
+Finished.
+
+
+MINIMUM f:
+
+Expand next.
+
+
+GOAL:
+
+Stop when selected under standard A*.
+
+
