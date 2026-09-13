@@ -1,0 +1,13 @@
+Dear Students,
+
+This is to inform you that the Midterm Examination of the AI Lab course will be held on Wednesday, September 9, 2026, In Sha Allah.
+
+Syllabus:
+
+A* Search
+Constraint Satisfaction Problem (CSP)
+Data Processing
+Question Pattern:
+
+Simulation-based questions
+Short conceptual questions
